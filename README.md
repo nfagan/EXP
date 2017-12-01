@@ -17,7 +17,7 @@ EXP exposes a set of libraries designed to simplify state-machine style task cod
 
 ```bash
 git clone https://github.com/nfagan/EXP.git --recursive
-cd /EXP
+cd ./EXP
 python build.py
 ```
 
