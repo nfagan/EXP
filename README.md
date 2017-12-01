@@ -15,9 +15,11 @@ EXP exposes a set of libraries designed to simplify state-machine style task cod
 
 ## Simplified clone, build, and install
 
-`git clone https://github.com/nfagan/EXP.git --recursive
+```bash
+git clone https://github.com/nfagan/EXP.git --recursive
 cd /EXP
-python build.py`
+python build.py
+```
 
 Libs are installed to the lib-subdirectory in each module.
 
