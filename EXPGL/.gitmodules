@@ -1,4 +1,0 @@
-[submodule "depends/glfw"]
-	path = depends/glfw
-	url = https://github.com/glfw/glfw
-	branch = master
