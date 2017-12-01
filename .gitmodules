@@ -1,0 +1,3 @@
+[submodule "EXPGL/depends/glfw"]
+	path = EXPGL/depends/glfw
+	url = https://github.com/glfw/glfw
