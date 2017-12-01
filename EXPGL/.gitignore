@@ -1,0 +1,11 @@
+Vendor/
+DerivedData/
+Build/
+x64/
+.vs/
+lib/libglfw3.a
+lib/libEXPGL.a
+lib/glfw3.dll
+lib/glfw3.lib
+lib/glfw3dll.lib
+lib/EXPGL.lib

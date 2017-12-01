@@ -1,0 +1,6 @@
+bin/
+build/
+.vs/
+x64/
+lib/EXPTask.lib
+lib/libEXPTask.a

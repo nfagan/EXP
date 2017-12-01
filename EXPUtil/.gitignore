@@ -1,0 +1,4 @@
+build/
+.vs/
+lib/libEXPUtil.a
+lib/EXPUtil.lib
