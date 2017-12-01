@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(EXPSQL)
 set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_CXX_STANDARD 14)
 
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
