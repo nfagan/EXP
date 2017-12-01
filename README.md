@@ -2,9 +2,9 @@
 
 EXP exposes a set of libraries designed to simplify state-machine style task coding. Included are utilities / interfaces that enable (async) stimulus display, simplified task-construction, and data storage. Check out the examples (in progress) to see more.
 
-# Building
+## Building
 
-## Dependencies
+### Dependencies
 
 * [cmake](https://cmake.org/download/)
 * XCode command line tools with support for c++14 (if on mac)
@@ -13,7 +13,7 @@ EXP exposes a set of libraries designed to simplify state-machine style task cod
 * sqlite3 - again, libs are included, but may require rebuilding
 * python, if attempting to use the build script `build.py`
 
-## Simplified clone, build, and install
+### Simplified clone, build, and install
 
 ```bash
 git clone https://github.com/nfagan/EXP.git --recursive
