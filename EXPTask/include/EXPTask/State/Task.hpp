@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <EXPTask/State/State.hpp>
 #include <unordered_map>
+#include <atomic>
 
 namespace EXP {
     class Task : public StatePrimitive
@@ -25,12 +26,14 @@ namespace EXP {
         virtual void OnLoop(std::function<void(Task*)> on_loop);
         virtual void OnExit(std::function<void(Task*)> on_exit);
         
+        bool IsRunning();
         void LogTime(void) const;
         
         EXP::State* CreateState(unsigned id);
         EXP::State* GetStateById(unsigned id);
         
     protected:
+        std::atomic<bool> is_running;
         EXP::StatePrimitive *previous = nullptr;
         std::unordered_map<unsigned, EXP::State*> states;
         unsigned n_states;

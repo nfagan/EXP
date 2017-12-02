@@ -81,7 +81,7 @@ void render_loop(EXP::RenderLoop* looper)
     
     std::shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
     std::shared_ptr<RenderTarget> render_target = pipeline.GetTarget();
-//    std::shared_ptr<Target> target1 = task->GetStateById(STATE1)->GetTargetSet().GetTargetById(0);
+    std::shared_ptr<Target> target1 = task->GetStateById(STATE1)->GetTargetSet().GetTargetById(0);
     
     Model *rectangle = rsrc->Get<Model>(IDS::MAIN_RECT);
     Model *circle = rsrc->Get<Model>(IDS::CIRCLE1);
@@ -91,7 +91,7 @@ void render_loop(EXP::RenderLoop* looper)
     
     Rect<float> screen = render_target->GetFullRect();
     glm::vec2 position = rectangle->get_units_position(screen);
-//    target1->SetPosition(position);
+    target1->SetPosition(position);
 }
 
 Rect<float> get_pixel_vertices(const std::shared_ptr<RenderTarget> &target, Model* model)
@@ -349,6 +349,10 @@ int test_states(void)
     time->Start();
     gl_init();
     std::thread t1(task_thread_loop);
+    while (!task || !task->IsRunning())
+    {
+        //
+    }
     std::shared_ptr<RenderLoop> looper = pipeline.GetRenderLoop();
     looper->OnLoop(render_loop);
     looper->Loop();

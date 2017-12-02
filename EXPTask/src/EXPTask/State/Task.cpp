@@ -13,6 +13,7 @@
 EXP::Task::Task(EXP::Time::Keeper *time_keeper) : EXP::StatePrimitive(time_keeper)
 {
     n_states = 0;
+    is_running.store(false);
     AddExitCondition<EXP::exit_conditions::null_next>();
 }
 
@@ -22,6 +23,11 @@ EXP::Task::~Task()
     {
         delete it->second;
     }
+}
+
+bool EXP::Task::IsRunning()
+{
+    return is_running.load();
 }
 
 void EXP::Task::OnLoop(std::function<void (Task *)> on_loop)
@@ -38,10 +44,9 @@ void EXP::Task::Run()
 {
     bool first_entry = true;
     EXP::StatePrimitive *current = next;
-
+    is_running.store(true);
     while (!should_exit())
     {
-
         loop();
 
         if (first_entry)
@@ -63,8 +68,8 @@ void EXP::Task::Run()
             current->loop();
         }
     }
-    
     exit();
+    is_running.store(false);
 }
 
 void EXP::Task::LogTime() const
