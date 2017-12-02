@@ -79,19 +79,19 @@ void render_loop(EXP::RenderLoop* looper)
         rect_pos.y = 0.5f;
     }
     
-//    std::shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
-//    std::shared_ptr<RenderTarget> render_target = pipeline.GetTarget();
-//    std::shared_ptr<Target> target1 = task->GetStateById(STATE1)->GetTargetSet().GetTargetById(0);
-//    
-//    Model *rectangle = rsrc->Get<Model>(IDS::MAIN_RECT);
-//    Model *circle = rsrc->Get<Model>(IDS::CIRCLE1);
-//    
-//    rectangle->SetPosition(rect_pos);
-//    circle->SetPosition(rect_pos);
-//    
-//    Rect<float> screen = render_target->GetFullRect();
-//    glm::vec2 position = rectangle->get_units_position(screen);
-//    target1->SetPosition(position);
+    std::shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
+    std::shared_ptr<RenderTarget> render_target = pipeline.GetTarget();
+    std::shared_ptr<Target> target1 = task->GetStateById(STATE1)->GetTargetSet().GetTargetById(0);
+    
+    Model *rectangle = rsrc->Get<Model>(IDS::MAIN_RECT);
+    Model *circle = rsrc->Get<Model>(IDS::CIRCLE1);
+    
+    rectangle->SetPosition(rect_pos);
+    circle->SetPosition(rect_pos);
+    
+    Rect<float> screen = render_target->GetFullRect();
+    glm::vec2 position = rectangle->get_units_position(screen);
+    target1->SetPosition(position);
 }
 
 Rect<float> get_pixel_vertices(const std::shared_ptr<RenderTarget> &target, Model* model)
@@ -281,7 +281,7 @@ void gl_init(void)
     using namespace EXP;
     using std::shared_ptr;
     
-    pipeline.Begin();
+    pipeline.Begin(0, 400, 400);
     
     shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
     shared_ptr<RenderTarget> render_target = pipeline.GetTarget();
