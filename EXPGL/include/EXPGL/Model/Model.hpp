@@ -10,6 +10,7 @@
 #define Model_hpp
 
 #include <atomic>
+#include <memory>
 #include <EXPGL/Util/Common.hpp>
 #include <EXPGL/Mesh/Mesh.hpp>
 #include <EXPGL/Material/Material.hpp>
@@ -40,7 +41,7 @@ namespace EXP {
         void SetUnits(util::units::UNITS units);
         void SetProjectionType(util::projection_types::PROJECTION_TYPES projection_type);
         
-        void Initialize(EXP::RenderTarget *target);
+        void Initialize(const std::shared_ptr<RenderTarget> &target);
         void MakeLike(EXP::Model *model);
         
         glm::vec3 GetPosition() const;

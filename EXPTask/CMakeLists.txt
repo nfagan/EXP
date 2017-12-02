@@ -33,8 +33,8 @@ target_link_libraries(EXPTask ${EXPGL_LIBRARIES} ${EXPUtil_LIBRARIES})
 
 file(GLOB_RECURSE TESTSOURCES "test/main.cpp" "test/include/*.hpp")
 include_directories(${CMAKE_SOURCE_DIR}/test/include)
-add_executable(EXPTask_test ${TESTSOURCES})
-target_link_libraries(EXPTask_test ${EXPGL_LIBRARIES} ${EXPUtil_LIBRARIES} EXPTask)
+#add_executable(EXPTask_test ${TESTSOURCES})
+#target_link_libraries(EXPTask_test ${EXPGL_LIBRARIES} ${EXPUtil_LIBRARIES} EXPTask)
 
 install(TARGETS EXPTask DESTINATION ${CMAKE_SOURCE_DIR}/lib)
-install(TARGETS EXPTask_test DESTINATION ${CMAKE_SOURCE_DIR}/bin)
+#install(TARGETS EXPTask_test DESTINATION ${CMAKE_SOURCE_DIR}/bin)

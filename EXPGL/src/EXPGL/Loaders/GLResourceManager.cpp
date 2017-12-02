@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <EXPGL/Loaders/GLResourceManager.hpp>
 
-EXP::GLResourceManager::GLResourceManager(EXP::RenderTarget *target) : target(target)
+EXP::GLResourceManager::GLResourceManager(std::shared_ptr<EXP::RenderTarget> target) : target(target)
 {
     texture_loader = std::make_unique<TextureLoader>();
     n_items = 0;

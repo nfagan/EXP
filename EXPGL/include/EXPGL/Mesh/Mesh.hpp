@@ -11,8 +11,9 @@
 
 #include <EXPGL/Render/RenderTarget.hpp>
 #include <EXPGL/Resource/GLResourcePrimitive.hpp>
-#include <vector>
 #include <EXPGL/Mesh/Vertex.hpp>
+#include <vector>
+#include <memory>
 
 namespace EXP {
     class Mesh : public GLResourcePrimitive
@@ -29,8 +30,8 @@ namespace EXP {
         virtual void SetTopology(TOPOLOGY topology);
         virtual void SetIndices(std::vector<unsigned int> indices);
         virtual void AddVertex(Vertex vertex);
-        virtual void Initialize(EXP::RenderTarget *target);
-        virtual void Finalize(EXP::RenderTarget *target);
+        virtual void Initialize(const std::shared_ptr<RenderTarget> &target);
+        virtual void Finalize(const std::shared_ptr<RenderTarget> &target);
         virtual bool IsInitialized() const;
         virtual bool IsFinalized() const;
         virtual void Draw(unsigned index) const;

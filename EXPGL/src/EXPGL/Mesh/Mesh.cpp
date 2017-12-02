@@ -45,7 +45,7 @@ void EXP::Mesh::AddVertex(EXP::Vertex vertex)
     vertices.push_back(vertex);
 }
 
-void EXP::Mesh::Initialize(EXP::RenderTarget *target)
+void EXP::Mesh::Initialize(const std::shared_ptr<EXP::RenderTarget> &target)
 {
     if (IsInitialized())
     {
@@ -58,7 +58,7 @@ void EXP::Mesh::Initialize(EXP::RenderTarget *target)
     is_initialized = true;
 }
 
-void EXP::Mesh::Finalize(EXP::RenderTarget *target)
+void EXP::Mesh::Finalize(const std::shared_ptr<EXP::RenderTarget> &target)
 {
     if (!IsInitialized())
     {

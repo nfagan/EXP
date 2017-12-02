@@ -12,6 +12,7 @@
 #include <gl.h>
 #include <stdio.h>
 #include <vector>
+#include <memory>
 #include <EXPGL/Context/Window.hpp>
 #include <EXPGL/Render/RenderTarget.hpp>
 
@@ -31,10 +32,11 @@ namespace EXP {
         void CloseTarget(RenderTarget *target);
         void PollEvents();
         
-        RenderTarget* CreateRenderTarget(Window *window);
-        RenderTarget* CreateRenderTarget(std::vector<EXP::Window*> windows);
+        std::shared_ptr<RenderTarget> CreateRenderTarget(Window *window);
+        std::shared_ptr<RenderTarget> CreateRenderTarget(std::vector<EXP::Window*> windows);
     private:
-        int init_status;
+        int glfw_init_status;
+        int glad_init_status;
         
         void init_context(void);
         void init_monitors(void);
@@ -44,7 +46,6 @@ namespace EXP {
         bool *has_fullscreen_window;
         
         std::vector<Window*> windows;
-        std::vector<RenderTarget*> render_targets;
         
         void validate_index(unsigned index);
         void register_window(Window *window);

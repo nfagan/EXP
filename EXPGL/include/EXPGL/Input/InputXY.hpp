@@ -12,19 +12,20 @@
 #include <EXPGL/Render/RenderTarget.hpp>
 #include <glm/glm.hpp>
 #include <atomic>
+#include <memory>
 
 namespace EXP {
     class InputXY
     {
     public:
-        InputXY(EXP::RenderTarget *target);
+        InputXY(std::shared_ptr<EXP::RenderTarget> target);
         virtual ~InputXY() = default;
         
         virtual glm::vec2 GetCoordinates() const;
         virtual void UpdateCoordinates();
         virtual void PrintCoordinates() const;
     protected:
-        EXP::RenderTarget *target;
+        std::shared_ptr<EXP::RenderTarget> target;
         std::atomic<float> x;
         std::atomic<float> y;
     };

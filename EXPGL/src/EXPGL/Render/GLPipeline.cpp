@@ -7,7 +7,7 @@
 
 #include <EXPGL/Render/GLPipeline.hpp>
 
-EXP::GLPipeline::GLPipeline(GLContextManager *manager) : context(manager)
+EXP::GLPipeline::GLPipeline(std::shared_ptr<EXP::GLContextManager> manager) : context(manager)
 {
     is_initialized = false;
 }
@@ -44,7 +44,7 @@ std::shared_ptr<EXP::GLResourceManager> EXP::GLPipeline::GetResource() const
     return resource;
 }
 
-EXP::RenderTarget* EXP::GLPipeline::GetTarget() const
+std::shared_ptr<EXP::RenderTarget> EXP::GLPipeline::GetTarget() const
 {
     ensure_initialized();
     return target;
@@ -58,7 +58,7 @@ void EXP::GLPipeline::ensure_initialized(void) const
     }
 }
 
-void EXP::GLPipeline::begin(RenderTarget *target)
+void EXP::GLPipeline::begin(std::shared_ptr<RenderTarget> target)
 {
     resource = std::make_shared<GLResourceManager>(target);
     renderer = std::make_shared<Renderer>(target);

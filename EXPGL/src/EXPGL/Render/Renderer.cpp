@@ -11,9 +11,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <EXPGL/Util/Common.hpp>
 
-EXP::Renderer::Renderer(EXP::RenderTarget *target)
+EXP::Renderer::Renderer(std::shared_ptr<EXP::RenderTarget> target)
 {
-    initialize(target);
+    target->GetPrimaryWindow()->MakeCurrent();
+    this->target = target;
 }
 
 void EXP::Renderer::Draw(void)
@@ -95,10 +96,4 @@ void EXP::Renderer::draw(EXP::Model *model, EXP::Window *window, unsigned index)
 void EXP::Renderer::swap_buffers(EXP::Window *window)
 {
     glfwSwapBuffers(window->GetWindow());
-}
-
-void EXP::Renderer::initialize(EXP::RenderTarget *target)
-{
-    target->GetPrimaryWindow()->MakeCurrent();
-    this->target = target;
 }

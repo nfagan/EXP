@@ -8,9 +8,9 @@
 
 #include <EXPGL/Input/InputKeyboard.hpp>
 
-EXP::InputKeyboard::InputKeyboard(EXP::RenderTarget *target)
+EXP::InputKeyboard::InputKeyboard(std::shared_ptr<EXP::RenderTarget> target) : target(target)
 {
-    this->target = target;
+    
 }
 
 void EXP::InputKeyboard::Update() {};

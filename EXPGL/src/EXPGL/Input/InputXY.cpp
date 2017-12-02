@@ -8,9 +8,8 @@
 
 #include <EXPGL/Input/InputXY.hpp>
 
-EXP::InputXY::InputXY(EXP::RenderTarget *target)
+EXP::InputXY::InputXY(std::shared_ptr<EXP::RenderTarget> target) : target(target)
 {
-    this->target = target;
     x.store(0.0f);
     y.store(0.0f);
 }

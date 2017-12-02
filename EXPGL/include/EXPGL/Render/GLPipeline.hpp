@@ -20,7 +20,7 @@ namespace EXP {
 class GLPipeline
 {
 public:
-    GLPipeline(GLContextManager *manager);
+    GLPipeline(std::shared_ptr<GLContextManager> manager);
     ~GLPipeline() = default;
     
     void Begin(int index = 0);
@@ -29,17 +29,17 @@ public:
     std::shared_ptr<Renderer> GetRenderer() const;
     std::shared_ptr<RenderLoop> GetRenderLoop() const;
     std::shared_ptr<GLResourceManager> GetResource() const;
-    RenderTarget* GetTarget() const;
+    std::shared_ptr<RenderTarget> GetTarget() const;
 private:
     bool is_initialized;
-    GLContextManager *context;
-    RenderTarget *target;
+    std::shared_ptr<GLContextManager> context;
+    std::shared_ptr<RenderTarget> target;
     std::shared_ptr<Renderer> renderer;
     std::shared_ptr<GLResourceManager> resource;
     std::shared_ptr<RenderLoop> loop;
     
     void ensure_initialized(void) const;
-    void begin(RenderTarget *target);
+    void begin(std::shared_ptr<RenderTarget> target);
 };
 }
 

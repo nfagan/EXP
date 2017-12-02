@@ -17,7 +17,7 @@ EXP::GLContextManager::GLContextManager()
 
 void EXP::GLContextManager::init_context()
 {
-    init_status = glfwInit();
+    glfw_init_status = glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -44,16 +44,12 @@ EXP::GLContextManager::~GLContextManager()
     {
         delete windows[i];
     }
-    for (unsigned i = 0; i < render_targets.size(); ++i)
-    {
-        delete render_targets[i];
-    }
     delete[] has_fullscreen_window;
 }
 
 bool EXP::GLContextManager::DidInitialize()
 {
-    return init_status == GLFW_TRUE;
+    return glfw_init_status && glad_init_status;
 }
 
 void EXP::GLContextManager::register_window(EXP::Window *window)
@@ -61,8 +57,7 @@ void EXP::GLContextManager::register_window(EXP::Window *window)
     if (windows.size() == 0)
     {
         window->MakeCurrent();
-        int result = gladLoadGL();
-        assert(result);
+        glad_init_status = gladLoadGL();
     }
     windows.push_back(window);
 }
@@ -97,21 +92,25 @@ EXP::Window* EXP::GLContextManager::OpenWindow(unsigned index, EXP::Window *othe
 
 void EXP::GLContextManager::validate_index(unsigned index)
 {
-    assert(index < n_monitors);
-    assert(!has_fullscreen_window[index]);
+    if (index >= n_monitors)
+    {
+        throw std::logic_error("Window index must be less than " + std::to_string(n_monitors));
+    }
+    if (has_fullscreen_window[index])
+    {
+        throw std::logic_error("Can only open one fullscreen window per monitor.");
+    }
 }
 
-EXP::RenderTarget* EXP::GLContextManager::CreateRenderTarget(EXP::Window *window)
+std::shared_ptr<EXP::RenderTarget> EXP::GLContextManager::CreateRenderTarget(EXP::Window *window)
 {
     std::vector<EXP::Window*> windows = { window };
     return CreateRenderTarget(windows);
 }
 
-EXP::RenderTarget* EXP::GLContextManager::CreateRenderTarget(std::vector<EXP::Window*> windows)
+std::shared_ptr<EXP::RenderTarget> EXP::GLContextManager::CreateRenderTarget(std::vector<EXP::Window*> windows)
 {
-    RenderTarget *target = new EXP::RenderTarget(windows);
-    render_targets.push_back(target);
-    return target;
+    return std::make_shared<RenderTarget>(windows);
 }
 
 void EXP::GLContextManager::CloseTarget(EXP::RenderTarget *target)

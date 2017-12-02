@@ -13,7 +13,7 @@ EXP::GLResourcePrimitive::GLResourcePrimitive() {
     identifier = EXP::GLResourceIdentifier();
 };
 
-void EXP::GLResourcePrimitive::Initialize(EXP::RenderTarget *target) {};
+void EXP::GLResourcePrimitive::Initialize(const std::shared_ptr<EXP::RenderTarget> &target) {};
 
 EXP::GLResourceIdentifier EXP::GLResourcePrimitive::GetIdentifier() const
 {

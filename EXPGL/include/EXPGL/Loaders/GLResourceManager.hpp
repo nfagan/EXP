@@ -25,7 +25,7 @@ namespace EXP {
     class GLResourceManager
     {
     public:
-        GLResourceManager(EXP::RenderTarget *target);
+        GLResourceManager(std::shared_ptr<RenderTarget> target);
         ~GLResourceManager();
         
         template<typename T, typename... A>
@@ -92,7 +92,7 @@ namespace EXP {
             return texture_loader->GetTexture(filename);
         };
     private:
-        RenderTarget *target = nullptr;
+        std::shared_ptr<RenderTarget> target;
         std::unique_ptr<TextureLoader> texture_loader;
         std::vector<GLResourcePrimitive*> items;
         std::vector<std::type_index> types;

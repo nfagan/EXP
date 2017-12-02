@@ -10,19 +10,20 @@
 #define InputKeyboard_hpp
 
 #include <EXPGL/Render/RenderTarget.hpp>
+#include <memory>
 
 namespace EXP {
     
     class InputKeyboard
     {
     public:
-        InputKeyboard(EXP::RenderTarget *target);
+        InputKeyboard(std::shared_ptr<EXP::RenderTarget> target);
         ~InputKeyboard() = default;
         
         void Update();
         bool KeyDown(int id) const;
     private:
-        EXP::RenderTarget *target;
+        std::shared_ptr<EXP::RenderTarget> target;
     };
 }
 

@@ -11,6 +11,7 @@
 
 #include <EXPTask.hpp>
 #include <EXPGL.hpp>
+#include <EXPSQL/EXPSQL.hpp>
 #include <iostream>
 #include <thread>
 #include <memory>
@@ -44,7 +45,7 @@ enum STATES
 
 std::shared_ptr<Task> task;
 Time::Keeper *time = new Time::Keeper();
-GLContextManager *gl_manager = new GLContextManager();
+std::shared_ptr<GLContextManager> gl_manager = std::make_shared<GLContextManager>();
 GLPipeline pipeline(gl_manager);
 
 std::shared_ptr<InputKeyboard> keyboard;
@@ -86,7 +87,7 @@ void render_loop(EXP::RenderLoop* looper)
     circle->SetPosition(rect_pos);
 }
 
-Rect<float> get_pixel_vertices(RenderTarget *target, Model* model)
+Rect<float> get_pixel_vertices(const std::shared_ptr<RenderTarget> &target, Model* model)
 {
     Rect<float> screen = static_cast<Rect<float>>(target->GetFullRect());
     glm::vec3 pos = model->get_units_position(screen);
@@ -137,7 +138,7 @@ void task_thread_loop(void)
     
     state1->OnLoop([&] (State* state) {
         std::shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
-        RenderTarget *target = pipeline.GetTarget();
+        std::shared_ptr<RenderTarget> target = pipeline.GetTarget();
         Model *rectangle = rsrc->Get<Model>(IDS::MAIN_RECT);
         Model *rect2 = rsrc->Get<Model>(IDS::MAIN_RECT2);
         Rect<float> pixel_verts = get_pixel_vertices(target, rectangle);
@@ -265,9 +266,9 @@ void gl_init(void)
 {
     using namespace EXP;
     
-    pipeline.Begin(0, 400, 400);
+    pipeline.Begin();
     std::shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
-    RenderTarget *render_target = pipeline.GetTarget();
+    std::shared_ptr<RenderTarget> render_target = pipeline.GetTarget();
     
     Material *mat_anon = rsrc->Create<Material>();
     Material *mat = rsrc->Create<Material>();
