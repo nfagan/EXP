@@ -25,7 +25,7 @@ namespace EXP {
         bool InBounds();
         void SetPosition(glm::vec2 position);
         void SetSize(float size);
-        void SetBounds(std::function<bool(Target*)> bounds_function);
+        void OnBoundsCheck(std::function<bool(Target*)> bounds_function);
         unsigned GetId();
         
     private:

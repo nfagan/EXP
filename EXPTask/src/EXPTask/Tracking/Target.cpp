@@ -29,7 +29,7 @@ void EXP::Target::SetPosition(glm::vec2 position)
     position_lock.unlock();
 }
 
-void EXP::Target::SetBounds(std::function<bool(Target*)> bounds_function)
+void EXP::Target::OnBoundsCheck(std::function<bool(Target*)> bounds_function)
 {
     bounds_function_lock.lock();
     this->bounds_function = bounds_function;

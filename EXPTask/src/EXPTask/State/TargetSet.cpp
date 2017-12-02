@@ -68,17 +68,17 @@ void EXP::TargetSet::OnEllapsed(std::function<void(State*, std::shared_ptr<Targe
 
 void EXP::TargetSet::reset()
 {
-    for (auto it = targets.begin(); it != targets.end(); it++)
+    for (auto &it : targets)
     {
-        it->second.reset();
+        it.second.reset();
     }
 }
 
 void EXP::TargetSet::update()
 {
-    for (auto it = targets.begin(); it != targets.end(); it++)
+    for (auto &it : targets)
     {
-        update_one(it->second);
+        update_one(it.second);
     }
 }
 

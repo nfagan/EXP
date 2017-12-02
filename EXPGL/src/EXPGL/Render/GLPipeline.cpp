@@ -12,6 +12,16 @@ EXP::GLPipeline::GLPipeline(std::shared_ptr<EXP::GLContextManager> manager) : co
     is_initialized = false;
 }
 
+void EXP::GLPipeline::Update()
+{
+    context->PollEvents();
+}
+
+bool EXP::GLPipeline::IsInitialized() const
+{
+    return is_initialized && context->DidInitialize();
+}
+
 void EXP::GLPipeline::Begin(int index)
 {
     assert(context);

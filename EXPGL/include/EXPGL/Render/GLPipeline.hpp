@@ -25,6 +25,8 @@ public:
     
     void Begin(int index = 0);
     void Begin(int index, int width, int height);
+    void Update();
+    bool IsInitialized() const;
     
     std::shared_ptr<Renderer> GetRenderer() const;
     std::shared_ptr<RenderLoop> GetRenderLoop() const;
