@@ -21,7 +21,7 @@ namespace EXP {
         ~Rect() {}
         
         template<typename X>
-        explicit operator Rect<X>() const {
+        operator Rect<X>() const {
             return Rect<X>(static_cast<X>(rect[0]), static_cast<X>(rect[1]), static_cast<X>(rect[2]),
                              static_cast<X>(rect[3]));
         }

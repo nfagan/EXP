@@ -32,7 +32,7 @@ EXP::Model* EXP::GLResourceManager::make_model(Mesh *mesh)
 
 EXP::Shader* EXP::GLResourceManager::CreateGenericShader()
 {
-    Shader* shader = Create<Shader>();
+    Shader *shader = Create<Shader>();
     ShaderLibrary::make_generic(shader);
     return shader;
 }

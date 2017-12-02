@@ -41,7 +41,7 @@ namespace EXP {
         void SetUnits(util::units::UNITS units);
         void SetProjectionType(util::projection_types::PROJECTION_TYPES projection_type);
         
-        void Initialize(const std::shared_ptr<RenderTarget> &target);
+        void Initialize(std::shared_ptr<RenderTarget> target);
         void MakeLike(EXP::Model *model);
         
         glm::vec3 GetPosition() const;

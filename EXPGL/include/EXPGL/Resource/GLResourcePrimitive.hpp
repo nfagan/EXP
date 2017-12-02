@@ -23,7 +23,7 @@ namespace EXP {
         GLResourcePrimitive();
         virtual ~GLResourcePrimitive() = default;
         virtual GLResourceIdentifier GetIdentifier() const;
-        virtual void Initialize(const std::shared_ptr<RenderTarget> &target);
+        virtual void Initialize(std::shared_ptr<RenderTarget> target);
         virtual void SetTag(const std::string &tag);
         
     protected:

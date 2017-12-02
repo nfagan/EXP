@@ -80,11 +80,18 @@ void render_loop(EXP::RenderLoop* looper)
     }
     
     std::shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
+    std::shared_ptr<RenderTarget> render_target = pipeline.GetTarget();
+    std::shared_ptr<Target> target1 = task->GetStateById(STATE1)->GetTargetSet().GetTargetById(0);
+    
     Model *rectangle = rsrc->Get<Model>(IDS::MAIN_RECT);
     Model *circle = rsrc->Get<Model>(IDS::CIRCLE1);
     
     rectangle->SetPosition(rect_pos);
     circle->SetPosition(rect_pos);
+    
+    Rect<float> screen = render_target->GetFullRect();
+    glm::vec2 position = rectangle->get_units_position(screen);
+    target1->SetPosition(position);
 }
 
 Rect<float> get_pixel_vertices(const std::shared_ptr<RenderTarget> &target, Model* model)
@@ -128,7 +135,9 @@ void task_thread_loop(void)
             Model *circle = rsrc->Get<Model>(IDS::CIRCLE1);
             Material *mat = rsrc->Get<Material>(IDS::MAT1);
             for (unsigned i = 0; i < elements.size(); ++i)
+            {
                 elements[i]->SetMaterial(mat);
+            }
             elements.push_back(rect);
             elements.push_back(rect2);
             elements.push_back(circle);
@@ -156,10 +165,13 @@ void task_thread_loop(void)
     //  target set - state 1
     
     TargetSet &target_set = state1->GetTargetSet();
-    target_set.Add(target1, Time::duration_ms(1000));
-    target_set.Add(target2, Time::duration_ms(500));
+    std::shared_ptr<Target> target1 = target_set.Create(mouse, Time::duration_ms(500));
+    std::shared_ptr<Target> target2 = target_set.Create(mouse, Time::duration_ms(500));
     
-    target_set.OnEllapsed([] (State *state, TargetXY *target) {
+    target1->SetPosition(glm::vec2(200.0f, 200.0f));
+    target1->SetSize(50.0f);
+    
+    target_set.OnEllapsed([] (State *state, std::shared_ptr<Target> target) {
         pipeline.GetRenderLoop()->OnceDrawReady([] (RenderLoop *looper) {
             std::shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
             Material *mat = rsrc->Get<Material>(IDS::MAT1);
@@ -167,7 +179,8 @@ void task_thread_loop(void)
             mat->SetAlbedo(tex);
         });
     });
-    target_set.OnTargetEntry([] (State *state, TargetXY *target) {
+    
+    target_set.OnTargetEntry([] (State *state, std::shared_ptr<Target> target) {
         unsigned id = target->GetId();
         pipeline.GetRenderLoop()->OnceDrawReady([id] (RenderLoop *looper) {
             std::shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
@@ -185,7 +198,8 @@ void task_thread_loop(void)
             }
         });
     });
-    target_set.OnTargetExit([] (State *state, TargetXY *target) {
+    
+    target_set.OnTargetExit([] (State *state, std::shared_ptr<Target> target) {
         unsigned id = target->GetId();
         pipeline.GetRenderLoop()->OnceDrawReady([id] (RenderLoop *looper) {
             std::shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
@@ -265,10 +279,13 @@ void task_thread_loop(void)
 void gl_init(void)
 {
     using namespace EXP;
+    using std::shared_ptr;
     
     pipeline.Begin(0, 400, 400);
-    std::shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
-    std::shared_ptr<RenderTarget> render_target = pipeline.GetTarget();
+    
+    shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
+    shared_ptr<RenderTarget> render_target = pipeline.GetTarget();
+    shared_ptr<Renderer> renderer = pipeline.GetRenderer();
     
     Material *mat_anon = rsrc->Create<Material>();
     Material *mat = rsrc->Create<Material>();

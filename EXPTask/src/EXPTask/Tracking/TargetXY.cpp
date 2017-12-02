@@ -20,7 +20,7 @@ bool EXP::TargetXY::InBounds() const
     return bounds->InBounds(input_source->GetCoordinates());
 }
 
-std::shared_ptr<EXP::BoundsXY>& EXP::TargetXY::GetBounds()
+std::shared_ptr<EXP::BoundsXY> EXP::TargetXY::GetBounds()
 {
     return bounds;
 }

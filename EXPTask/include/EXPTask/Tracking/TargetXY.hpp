@@ -24,7 +24,7 @@ namespace EXP {
         ~TargetXY() = default;
         
         virtual bool InBounds(void) const;
-        virtual std::shared_ptr<EXP::BoundsXY>& GetBounds(void);
+        virtual std::shared_ptr<EXP::BoundsXY> GetBounds(void);
         
         unsigned GetId(void) const;
         void SetId(unsigned id);

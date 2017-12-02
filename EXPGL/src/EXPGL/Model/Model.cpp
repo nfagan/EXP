@@ -33,7 +33,7 @@ void EXP::Model::Draw(unsigned index)
     mesh.load()->Draw(index);
 }
 
-void EXP::Model::Initialize(const std::shared_ptr<RenderTarget> &target)
+void EXP::Model::Initialize(std::shared_ptr<RenderTarget> target)
 {
     //
 }

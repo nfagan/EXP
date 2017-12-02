@@ -30,8 +30,8 @@ namespace EXP {
         virtual void SetTopology(TOPOLOGY topology);
         virtual void SetIndices(std::vector<unsigned int> indices);
         virtual void AddVertex(Vertex vertex);
-        virtual void Initialize(const std::shared_ptr<RenderTarget> &target);
-        virtual void Finalize(const std::shared_ptr<RenderTarget> &target);
+        virtual void Initialize(std::shared_ptr<RenderTarget> target);
+        virtual void Finalize(std::shared_ptr<RenderTarget> target);
         virtual bool IsInitialized() const;
         virtual bool IsFinalized() const;
         virtual void Draw(unsigned index) const;
