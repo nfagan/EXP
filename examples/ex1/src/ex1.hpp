@@ -266,7 +266,7 @@ void gl_init(void)
 {
     using namespace EXP;
     
-    pipeline.Begin();
+    pipeline.Begin(0, 400, 400);
     std::shared_ptr<GLResourceManager> rsrc = pipeline.GetResource();
     std::shared_ptr<RenderTarget> render_target = pipeline.GetTarget();
     
