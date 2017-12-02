@@ -9,8 +9,8 @@
 #ifndef GLResourcePrimitive_hpp
 #define GLResourcePrimitive_hpp
 
-#include <stdio.h>
 #include <EXPGL/Resource/GLResourceIdentifier.hpp>
+#include <memory>
 
 namespace EXP {
     

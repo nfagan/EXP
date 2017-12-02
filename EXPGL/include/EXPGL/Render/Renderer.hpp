@@ -12,6 +12,7 @@
 #include <glm/glm.hpp>
 #include <EXPGL/Model/Model.hpp>
 #include <EXPGL/Util/Colors.hpp>
+#include <memory>
 
 namespace EXP {
     class Renderer
