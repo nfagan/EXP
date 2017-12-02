@@ -3,7 +3,8 @@ import os
 import sys
 import shutil
 
-command_options = ['--rebuild']
+command_options = ['--rebuild', '--module']
+modules = ['EXPUtil', 'EXPGL', 'EXPTask', 'EXPSQL', 'examples']
 is_windows = os.name == 'nt'
 exp_dir = os.path.dirname(os.path.realpath(__file__))
 remove_build_dir = False;
@@ -14,13 +15,29 @@ def get_help_text():
 		help_string += ('\n\t"{0}"'.format(command_options[i]))
 	return help_string
 
-if len(sys.argv) > 1:
-	for i in xrange(len(sys.argv)-1):
-		if sys.argv[i+1] == '--rebuild':
+def throw_invalid_command():
+	raise Exception('\n\nUnrecognized command {0}\n'.format(get_help_text()))
+
+def handle_command_line_input():
+	global modules
+	global remove_build_dir
+	if len(sys.argv) == 1:
+		return
+	i = 1
+	proceed = True
+	while proceed:
+		is_last = i == len(sys.argv)-1
+		opt = sys.argv[i]
+		if opt == '--rebuild':
 			remove_build_dir = True
+			i += 1
+		elif opt == '--module' and not is_last and sys.argv[i+1] in modules:
+			modules = [sys.argv[i+1]]
+			i += 2
 		else:
-			raise Exception('\n\nUnrecognized command "{0}"{1}\n'.format(
-				sys.argv[i+1], get_help_text()))
+			throw_invalid_command()
+
+		proceed = i < len(sys.argv)
 
 def require_dir(directory):
 	if not os.path.exists(directory):
@@ -59,16 +76,16 @@ def build_subdirectory(name):
 	return result
 
 def check_errors(err):
-	if err == 1:
+	if err != 0:
 		print('\n\nFailed to build with the above message.\n\n')
 		return True
 	return False
 
 def build():
-	modules = ['EXPUtil', 'EXPGL', 'EXPTask', 'EXPSQL']
 	for i in xrange(len(modules)):
 		if check_errors(build_subdirectory(modules[i])):
 			return
 	print('\n\nAll succeeded.\n\n')
 
+handle_command_line_input()
 build()

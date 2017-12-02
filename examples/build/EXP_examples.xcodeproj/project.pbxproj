@@ -1,0 +1,819 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		0882AD20F5C940DE8790AED8 /* install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = C6C21398D02541B7AFAB0703 /* Build configuration list for PBXAggregateTarget "install" */;
+			buildPhases = (
+				F07E6B6AEFF94D2DB7F53F61 /* CMake PostBuild Rules */,
+			);
+			dependencies = (
+				830FB1E130F94B10993FEAAC /* PBXTargetDependency */,
+			);
+			name = install;
+			productName = install;
+		};
+		CE1CD8239E5546A085C6E49D /* ALL_BUILD */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 7A3CA8303029496DBB10582E /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */;
+			buildPhases = (
+				46B9C7164C844EBFAFD24104 /* CMake Rules */,
+			);
+			dependencies = (
+				142142F7F5034E37A3BFD022 /* PBXTargetDependency */,
+				83224EF444854FF79E8A5BAF /* PBXTargetDependency */,
+			);
+			name = ALL_BUILD;
+			productName = ALL_BUILD;
+		};
+		F1B8D117C94442B1A5369FE2 /* ZERO_CHECK */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9B7C44FC903C425AA5B37C5D /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */;
+			buildPhases = (
+				E38E0989135148F78E4C1D59 /* CMake Rules */,
+			);
+			dependencies = (
+			);
+			name = ZERO_CHECK;
+			productName = ZERO_CHECK;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		0B473DF1010F431F9AFF2EC9 /* /Users/Nick/repositories/exp/EXP/examples/ex1/CMakeLists.txt */ = {isa = PBXBuildFile; fileRef = 9864AAD45A744FC7A39061FD /* /Users/Nick/repositories/exp/EXP/examples/ex1/CMakeLists.txt */; };
+		48F84DE3A0BD48089A40B731 /* /Users/Nick/repositories/exp/EXP/examples/ex1/src/ex1.hpp */ = {isa = PBXBuildFile; fileRef = 14AE6675C6A340229AB3DC68 /* /Users/Nick/repositories/exp/EXP/examples/ex1/src/ex1.hpp */; };
+		5A2A32E746134659A36049A0 /* /Users/Nick/repositories/exp/EXP/examples/ex1/src/main.cpp */ = {isa = PBXBuildFile; fileRef = 208D02BFBB6A483C855C1AFA /* /Users/Nick/repositories/exp/EXP/examples/ex1/src/main.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		0F41C43B656F4D35BA410BC4 /* RelWithDebInfo */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = RelWithDebInfo;
+		};
+		154048E323074625863A6498 /* MinSizeRel */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = MinSizeRel;
+		};
+		285391D8C84740AE816EDD45 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Debug;
+		};
+		4012F56065C5486CB8C13472 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXContainerItemProxy section */
+		105B7D97A7A648F0A20A19CD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 54F0329A9011409BAB4200E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8665609C2F9D468BBBD3439E;
+			remoteInfo = EXP_ex1;
+		};
+		3C9A857A91C4471691D4221E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 54F0329A9011409BAB4200E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F1B8D117C94442B1A5369FE2;
+			remoteInfo = ZERO_CHECK;
+		};
+		D8DA97C023C0476B9ED16A2C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 54F0329A9011409BAB4200E1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE1CD8239E5546A085C6E49D;
+			remoteInfo = ALL_BUILD;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		14AE6675C6A340229AB3DC68 /* /Users/Nick/repositories/exp/EXP/examples/ex1/src/ex1.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; name = ex1.hpp; path = ex1/src/ex1.hpp; sourceTree = SOURCE_ROOT; };
+		208D02BFBB6A483C855C1AFA /* /Users/Nick/repositories/exp/EXP/examples/ex1/src/main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = main.cpp; path = ex1/src/main.cpp; sourceTree = SOURCE_ROOT; };
+		3FFA556532BC461E88E2865C /* /Users/Nick/repositories/exp/EXP/examples/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		6BD9F65CF2E84473961D1523 /* EXP_ex1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; path = EXP_ex1; sourceTree = BUILT_PRODUCTS_DIR; };
+		7139AAFC1531408B9091CD3C /* /Users/Nick/repositories/exp/EXP/examples/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		9864AAD45A744FC7A39061FD /* /Users/Nick/repositories/exp/EXP/examples/ex1/CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; name = CMakeLists.txt; path = ex1/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		19C05F35987F48DC97A6B90E /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				14AE6675C6A340229AB3DC68 /* /Users/Nick/repositories/exp/EXP/examples/ex1/src/ex1.hpp */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		26C5880335824F0BAACD437E /* ZERO_CHECK */ = {
+			isa = PBXGroup;
+			children = (
+				3E98E79F933D4C37928A1BAB /* CMake Rules */,
+				7139AAFC1531408B9091CD3C /* /Users/Nick/repositories/exp/EXP/examples/CMakeLists.txt */,
+			);
+			name = ZERO_CHECK;
+			sourceTree = "<group>";
+		};
+		26D9540E424C46A09AE46562 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		3E98E79F933D4C37928A1BAB /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		3ED9CF8AFAEA4C96B8CCE3E7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6BD9F65CF2E84473961D1523 /* EXP_ex1 */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		466F4B8B1F45467794A52357 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				208D02BFBB6A483C855C1AFA /* /Users/Nick/repositories/exp/EXP/examples/ex1/src/main.cpp */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		708B095EA19744D7AD22426D = {
+			isa = PBXGroup;
+			children = (
+				7321AA468E044ADBB13A9789 /* ALL_BUILD */,
+				26C5880335824F0BAACD437E /* ZERO_CHECK */,
+				A36F9CF4B77448BE85BE9129 /* EXP_ex1 */,
+				3ED9CF8AFAEA4C96B8CCE3E7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7321AA468E044ADBB13A9789 /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				26D9540E424C46A09AE46562 /* CMake Rules */,
+				3FFA556532BC461E88E2865C /* /Users/Nick/repositories/exp/EXP/examples/CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+		A36F9CF4B77448BE85BE9129 /* EXP_ex1 */ = {
+			isa = PBXGroup;
+			children = (
+				466F4B8B1F45467794A52357 /* Source Files */,
+				19C05F35987F48DC97A6B90E /* Header Files */,
+				9864AAD45A744FC7A39061FD /* /Users/Nick/repositories/exp/EXP/examples/ex1/CMakeLists.txt */,
+			);
+			name = EXP_ex1;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8665609C2F9D468BBBD3439E /* EXP_ex1 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F478E755BACD4D8E8CE6E6B5 /* Build configuration list for PBXNativeTarget "EXP_ex1" */;
+			buildPhases = (
+				6226588FB568471C87111F4E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EXP_ex1;
+			productName = EXP_ex1;
+			productReference = 6BD9F65CF2E84473961D1523 /* EXP_ex1 */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		54F0329A9011409BAB4200E1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0910;
+			};
+			buildConfigurationList = 168C9A8A675F4E629BC5C60D /* Build configuration list for PBXProject "EXP_examples" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				285391D8C84740AE816EDD45 /* Debug */,
+				4012F56065C5486CB8C13472 /* Release */,
+				154048E323074625863A6498 /* MinSizeRel */,
+				0F41C43B656F4D35BA410BC4 /* RelWithDebInfo */,
+			);
+			compatibilityVersion = "Xcode 3.2";
+			hasScannedForEncodings = 0;
+			mainGroup = 708B095EA19744D7AD22426D;
+			projectDirPath = ../;
+			projectRoot = "";
+			targets = (
+				CE1CD8239E5546A085C6E49D /* ALL_BUILD */,
+				F1B8D117C94442B1A5369FE2 /* ZERO_CHECK */,
+				0882AD20F5C940DE8790AED8 /* install */,
+				8665609C2F9D468BBBD3439E /* EXP_ex1 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		46B9C7164C844EBFAFD24104 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			outputPaths = (
+/Users/Nick/repositories/exp/EXP/examples/build/CMakeFiles/ALL_BUILD			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/Nick/repositories/exp/EXP/examples/build -f /Users/Nick/repositories/exp/EXP/examples/build/CMakeScripts/ALL_BUILD_cmakeRulesBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		976D44AAC71244A28F2B462B = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		98C9CD14EC9045A58B218B05 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		E38E0989135148F78E4C1D59 /* CMake Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake Rules";
+			outputPaths = (
+/Users/Nick/repositories/exp/EXP/examples/build/CMakeFiles/ZERO_CHECK			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/Nick/repositories/exp/EXP/examples/build -f /Users/Nick/repositories/exp/EXP/examples/build/CMakeScripts/ZERO_CHECK_cmakeRulesBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+		E54B5BB5F64C46E09F93E618 = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# shell script goes here
+exit 0";
+			showEnvVarsInLog = 0;
+		};
+		F07E6B6AEFF94D2DB7F53F61 /* CMake PostBuild Rules */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			name = "CMake PostBuild Rules";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "make -C /Users/Nick/repositories/exp/EXP/examples/build -f /Users/Nick/repositories/exp/EXP/examples/build/CMakeScripts/install_postBuildPhase.make$CONFIGURATION all";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6226588FB568471C87111F4E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A2A32E746134659A36049A0 /* /Users/Nick/repositories/exp/EXP/examples/ex1/src/main.cpp */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		142142F7F5034E37A3BFD022 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8665609C2F9D468BBBD3439E /* EXP_ex1 */;
+			targetProxy = 105B7D97A7A648F0A20A19CD /* PBXContainerItemProxy */;
+		};
+		830FB1E130F94B10993FEAAC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE1CD8239E5546A085C6E49D /* ALL_BUILD */;
+			targetProxy = D8DA97C023C0476B9ED16A2C /* PBXContainerItemProxy */;
+		};
+		83224EF444854FF79E8A5BAF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F1B8D117C94442B1A5369FE2 /* ZERO_CHECK */;
+			targetProxy = 3C9A857A91C4471691D4221E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		000D53F0C3FF4E9282351A2B /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		02A6369527DD4A7D83D02B9B /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		11685B361CBA45CAAE7A4081 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		17B49B359DC84517876397A5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		2F8050F28193429386E8B956 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		30B525976DF84C769B507457 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		5389C1882FC84B40A5A07FB9 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		631C680DE1CF4F608F129B0A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = "/Users/Nick/repositories/exp/EXP/EXPUtil/lib /Users/Nick/repositories/exp/EXP/EXPGL/lib /Users/Nick/repositories/exp/EXP/EXPTask/lib /Users/Nick/repositories/exp/EXP/EXPSQL/lib";
+				LIBRARY_SEARCH_PATHS = " /Users/Nick/repositories/exp/EXP/EXPUtil/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPUtil/lib /Users/Nick/repositories/exp/EXP/EXPGL/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPGL/lib /Users/Nick/repositories/exp/EXP/EXPTask/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPTask/lib /Users/Nick/repositories/exp/EXP/EXPSQL/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPSQL/lib";
+				OTHER_CPLUSPLUSFLAGS = "   '-std=gnu++14'  ";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -lEXPUtil -lEXPGL -lglfw3 -framework OpenGL -framework CoreVideo -framework IOKit -framework Cocoa -lEXPTask -lEXPSQL -lsqlite3";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = EXP_ex1;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build/ex1;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Debug;
+		};
+		6B48540E633F4BCD99D3796E /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk;
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build/build;
+			};
+			name = MinSizeRel;
+		};
+		6D70BC1D7D79429D900CA3A4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = "/Users/Nick/repositories/exp/EXP/EXPUtil/lib /Users/Nick/repositories/exp/EXP/EXPGL/lib /Users/Nick/repositories/exp/EXP/EXPTask/lib /Users/Nick/repositories/exp/EXP/EXPSQL/lib";
+				LIBRARY_SEARCH_PATHS = " /Users/Nick/repositories/exp/EXP/EXPUtil/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPUtil/lib /Users/Nick/repositories/exp/EXP/EXPGL/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPGL/lib /Users/Nick/repositories/exp/EXP/EXPTask/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPTask/lib /Users/Nick/repositories/exp/EXP/EXPSQL/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPSQL/lib";
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG '-std=gnu++14'  ";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -lEXPUtil -lEXPGL -lglfw3 -framework OpenGL -framework CoreVideo -framework IOKit -framework Cocoa -lEXPTask -lEXPSQL -lsqlite3";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = EXP_ex1;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build/ex1;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		88BF294585B644179638BE83 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk;
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build/build;
+			};
+			name = RelWithDebInfo;
+		};
+		90992F85FEB541BC9A529B0C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk;
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build/build;
+			};
+			name = Release;
+		};
+		9EE288253A09400D8A125D3B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ZERO_CHECK;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		BCE89BE595554E0D8A623595 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		C028D4E36D624093B8015939 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = Release;
+		};
+		C8F36CC487E34538B88581F6 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = ALL_BUILD;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		D3BB8CEC8D584105B586EE2E /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				OTHER_LDFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = install;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+		DA26CA927F414E38BC30874B /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = "/Users/Nick/repositories/exp/EXP/EXPUtil/lib /Users/Nick/repositories/exp/EXP/EXPGL/lib /Users/Nick/repositories/exp/EXP/EXPTask/lib /Users/Nick/repositories/exp/EXP/EXPSQL/lib";
+				LIBRARY_SEARCH_PATHS = " /Users/Nick/repositories/exp/EXP/EXPUtil/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPUtil/lib /Users/Nick/repositories/exp/EXP/EXPGL/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPGL/lib /Users/Nick/repositories/exp/EXP/EXPTask/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPTask/lib /Users/Nick/repositories/exp/EXP/EXPSQL/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPSQL/lib";
+				OTHER_CPLUSPLUSFLAGS = "       -DNDEBUG '-std=gnu++14'  ";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -lEXPUtil -lEXPGL -lglfw3 -framework OpenGL -framework CoreVideo -framework IOKit -framework Cocoa -lEXPTask -lEXPSQL -lsqlite3";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = EXP_ex1;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build/ex1;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = RelWithDebInfo;
+		};
+		DACAD48F3C574AD0BB8CBF05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk;
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build/build;
+			};
+			name = Debug;
+		};
+		F0040562B6414006A889058F /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = "";
+				EXECUTABLE_SUFFIX = "";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = ("'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'");
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (/Users/Nick/repositories/exp/EXP/EXPUtil/include,/Users/Nick/repositories/exp/EXP/EXPGL/include,/Users/Nick/repositories/exp/EXP/EXPTask/include,/Users/Nick/repositories/exp/EXP/EXPSQL/include);
+				INSTALL_PATH = "";
+				LD_RUNPATH_SEARCH_PATHS = "/Users/Nick/repositories/exp/EXP/EXPUtil/lib /Users/Nick/repositories/exp/EXP/EXPGL/lib /Users/Nick/repositories/exp/EXP/EXPTask/lib /Users/Nick/repositories/exp/EXP/EXPSQL/lib";
+				LIBRARY_SEARCH_PATHS = " /Users/Nick/repositories/exp/EXP/EXPUtil/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPUtil/lib /Users/Nick/repositories/exp/EXP/EXPGL/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPGL/lib /Users/Nick/repositories/exp/EXP/EXPTask/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPTask/lib /Users/Nick/repositories/exp/EXP/EXPSQL/lib/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME) /Users/Nick/repositories/exp/EXP/EXPSQL/lib";
+				OTHER_CPLUSPLUSFLAGS = "    -DNDEBUG '-std=gnu++14'  ";
+				OTHER_LDFLAGS = " -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -lEXPUtil -lEXPGL -lglfw3 -framework OpenGL -framework CoreVideo -framework IOKit -framework Cocoa -lEXPTask -lEXPSQL -lsqlite3";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = EXP_ex1;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/Nick/repositories/exp/EXP/examples/build/ex1;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = ("-Wmost","-Wno-four-char-constants","-Wno-unknown-pragmas","$(inherited)");
+			};
+			name = MinSizeRel;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		168C9A8A675F4E629BC5C60D /* Build configuration list for PBXProject "EXP_examples" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DACAD48F3C574AD0BB8CBF05 /* Debug */,
+				90992F85FEB541BC9A529B0C /* Release */,
+				6B48540E633F4BCD99D3796E /* MinSizeRel */,
+				88BF294585B644179638BE83 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		7A3CA8303029496DBB10582E /* Build configuration list for PBXAggregateTarget "ALL_BUILD" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2F8050F28193429386E8B956 /* Debug */,
+				C028D4E36D624093B8015939 /* Release */,
+				C8F36CC487E34538B88581F6 /* MinSizeRel */,
+				02A6369527DD4A7D83D02B9B /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9B7C44FC903C425AA5B37C5D /* Build configuration list for PBXAggregateTarget "ZERO_CHECK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30B525976DF84C769B507457 /* Debug */,
+				9EE288253A09400D8A125D3B /* Release */,
+				5389C1882FC84B40A5A07FB9 /* MinSizeRel */,
+				11685B361CBA45CAAE7A4081 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C6C21398D02541B7AFAB0703 /* Build configuration list for PBXAggregateTarget "install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17B49B359DC84517876397A5 /* Debug */,
+				BCE89BE595554E0D8A623595 /* Release */,
+				D3BB8CEC8D584105B586EE2E /* MinSizeRel */,
+				000D53F0C3FF4E9282351A2B /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		F478E755BACD4D8E8CE6E6B5 /* Build configuration list for PBXNativeTarget "EXP_ex1" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				631C680DE1CF4F608F129B0A /* Debug */,
+				6D70BC1D7D79429D900CA3A4 /* Release */,
+				F0040562B6414006A889058F /* MinSizeRel */,
+				DA26CA927F414E38BC30874B /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 54F0329A9011409BAB4200E1 /* Project object */;
+}
