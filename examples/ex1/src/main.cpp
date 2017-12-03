@@ -10,5 +10,5 @@
 #include <stdlib.h>
 
 int main(int argc, const char * argv[]) {
-    return EXP::test_case::test_states(argv[0]);
+    return EXP::test_case::test_states();
 }

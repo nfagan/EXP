@@ -12,6 +12,7 @@
 #include <EXPTask.hpp>
 #include <EXPGL.hpp>
 #include <EXPSQL/EXPSQL.hpp>
+#include <EXPUtil/file/get_full_path.hpp>
 #include <iostream>
 #include <thread>
 #include <memory>
@@ -413,41 +414,17 @@ bool gl_init()
     
     return true;
 }
-    
-void set_examples_directory()
-{
-#ifdef __APPLE__
-    char *abs_path = realpath("../", nullptr);
-    PATHS::EXAMPLES = std::string(abs_path);
-    free(abs_path);
-#else
-    char full[_MAX_PATH];
-    if (_fullpath(full, "../", _MAX_PATH) != NULL)
-    {
-        PATHS::EXAMPLES = std::string(full);
-    }
-    else
-    {
-        std::cout << "Invalid path" << std::endl;
-    }
-#endif
-}
 
-
-int test_states(const char *relative_exe_path)
+int test_states()
 {
-    set_examples_directory();
-    
-    std::cout << PATHS::EXAMPLES << std::endl;
+    PATHS::EXAMPLES = EXP::file::get_full_path("../");
     
     time->Start();
     
-    bool success = gl_init();
-    
-    if (!success)
+    if (!gl_init())
     {
         std::cout << "Failed to initialize the render pipeline." << std::endl;
-        return 1;
+        return EXIT_FAILURE;
     }
     
     std::thread t1(task_thread_loop);
@@ -460,7 +437,7 @@ int test_states(const char *relative_exe_path)
     looper->OnLoop(render_loop);
     looper->Loop();
     t1.join();
-    return 0;
+    return EXIT_SUCCESS;
 }
         
 }
