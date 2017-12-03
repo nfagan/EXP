@@ -58,23 +58,24 @@ EXP::Model* EXP::GLResourceManager::CreateTriangle()
     return make_model(mesh);
 }
 
-void EXP::GLResourceManager::SetName(GLResourcePrimitive *resource, const std::string &name)
-{
-    for (unsigned i = 0; i < items.size(); ++i)
-    {
-        if (items[i]->GetIdentifier().GetName() == name)
-        {
-            throw std::runtime_error("An item with the name `" + name + "` already exists.");
-        }
-    }
-    
-    std::string current_name = resource->GetIdentifier().GetName();
-    auto it = indices.find(current_name);
-    if (it == indices.end())
-    {
-        throw std::logic_error("The name `" + current_name + "` was not present??");
-    }
-    unsigned index = it->second;
-    indices.erase(it);
-    indices[name] = index;
-}
+//void EXP::GLResourceManager::SetName(GLResourcePrimitive *resource, const std::string &name)
+//{
+//    for (unsigned i = 0; i < items.size(); ++i)
+//    {
+//        if (items[i]->GetIdentifier().GetName() == name)
+//        {
+//            throw std::runtime_error("An item with the name `" + name + "` already exists.");
+//        }
+//    }
+//    
+//    std::string current_name = resource->GetIdentifier().GetName();
+//    auto it = indices.find(current_name);
+//    if (it == indices.end())
+//    {
+//        throw std::logic_error("The name `" + current_name + "` was not present??");
+//    }
+//    unsigned index = it->second;
+//    indices.erase(it);
+//    indices[name] = index;
+//}
+

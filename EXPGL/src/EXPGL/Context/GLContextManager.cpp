@@ -76,7 +76,7 @@ void EXP::GLContextManager::CloseWindow(EXP::Window *window)
 EXP::Window* EXP::GLContextManager::OpenWindow(unsigned index, unsigned width, unsigned height, EXP::Window *other)
 {
     validate_index(index);
-    Window* window = new Window(monitors[index], index, windows.size(), width, height, other);
+    Window *window = new Window(monitors[index], index, windows.size(), width, height, other);
     register_window(window);
     return window;
 }

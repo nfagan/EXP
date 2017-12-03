@@ -27,15 +27,16 @@ namespace EXP {
         State(EXP::Time::Keeper *time_keeper);
         virtual ~State() = default;
         
-        virtual TargetSet& GetTargetSet();
-        virtual unsigned GetId() const;
-        virtual State* GetStateById(unsigned id) const;
+        TargetSet& GetTargetSet();
+        unsigned GetUUID() const;
+        State* GetStateById(unsigned id) const;
         
-        virtual void Next(State* state);
+        void Next(State* state);
         
-        virtual void OnEntry(std::function<void(State*)> on_entry);
-        virtual void OnLoop(std::function<void(State*)> on_loop);
-        virtual void OnExit(std::function<void(State*)> on_exit);
+        void OnEntry(std::function<void(State*)> on_entry);
+        void OnLoop(std::function<void(State*)> on_loop);
+        void OnExit(std::function<void(State*)> on_exit);
+        
     protected:
         unsigned id;
         Task *parent = nullptr;

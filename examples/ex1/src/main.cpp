@@ -7,7 +7,8 @@
 //
 
 #include "ex1.hpp"
+#include <stdlib.h>
 
 int main(int argc, const char * argv[]) {
-    return EXP::test_case::test_states();
+    return EXP::test_case::test_states(argv[0]);
 }

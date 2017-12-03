@@ -39,7 +39,7 @@ const std::string& EXP::GLResourceIdentifier::GetTag() const
     return tag;
 }
 
-unsigned EXP::GLResourceIdentifier::GetId() const
+const unsigned EXP::GLResourceIdentifier::GetId() const
 {
     return id;
 }

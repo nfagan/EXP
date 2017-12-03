@@ -94,14 +94,13 @@ void EXP::Task::empty()
     //
 }
 
-EXP::State* EXP::Task::CreateState(unsigned id)
+EXP::State* EXP::Task::CreateState(unsigned int *id)
 {
     EXP::State *state = new EXP::State(time_keeper.load());
-    auto it = states.find(id);
-    EXP_ASSERT(it == states.end(), "The given state id `" << id << "` already exists." << std::endl);
-    state->set_id(id);
+    state->set_id(n_states);
     state->set_parent(this);
-    states[id] = state;
+    states[n_states] = state;
+    *id = n_states;
     n_states++;
     return state;
 }
@@ -109,6 +108,10 @@ EXP::State* EXP::Task::CreateState(unsigned id)
 EXP::State* EXP::Task::GetStateById(unsigned id)
 {
     auto it = states.find(id);
-    EXP_ASSERT(it != states.end(), "Requested non-existent state `" << id << "`." << std::endl);
+    if (it == states.end())
+    {
+        std::cout << "Requested non-existent state `" << id << "`." << std::endl;
+        return nullptr;
+    }
     return it->second;
 }

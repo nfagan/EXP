@@ -27,9 +27,4 @@ void EXP::InputXY::UpdateCoordinates()
     y.store((float)y_);
 }
 
-void EXP::InputXY::PrintCoordinates() const
-{
-    fprintf(stderr, "\nInputXY: X: %0.3f, Y: %0.3f", x.load(), y.load());
-}
-
 

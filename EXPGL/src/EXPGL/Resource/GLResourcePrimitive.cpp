@@ -9,11 +9,20 @@
 #include <EXPGL/Resource/GLResourcePrimitive.hpp>
 #include <iostream>
 
-EXP::GLResourcePrimitive::GLResourcePrimitive() {
+EXP::GLResourcePrimitive::GLResourcePrimitive()
+{
     identifier = EXP::GLResourceIdentifier();
-};
+}
 
-void EXP::GLResourcePrimitive::Initialize(std::shared_ptr<EXP::RenderTarget> target) {};
+void EXP::GLResourcePrimitive::Initialize(std::shared_ptr<EXP::RenderTarget> target)
+{
+    //
+}
+
+const unsigned int EXP::GLResourcePrimitive::GetUUID() const
+{
+    return identifier.GetId();
+}
 
 EXP::GLResourceIdentifier EXP::GLResourcePrimitive::GetIdentifier() const
 {

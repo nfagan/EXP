@@ -25,7 +25,7 @@ namespace EXP {
         
         const std::string& GetName() const;
         const std::string& GetTag() const;
-        unsigned GetId() const;
+        unsigned const GetId() const;
         
         void clone_from(const GLResourceIdentifier& source);
     private:

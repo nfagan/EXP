@@ -25,6 +25,7 @@ namespace EXP {
         virtual GLResourceIdentifier GetIdentifier() const;
         virtual void Initialize(std::shared_ptr<RenderTarget> target);
         virtual void SetTag(const std::string &tag);
+        virtual const unsigned int GetUUID() const;
         
     protected:
         virtual void set_identifier(const GLResourceIdentifier &identifier);

@@ -49,7 +49,7 @@ EXP::TargetSet& EXP::State::GetTargetSet()
     return target_set;
 }
 
-unsigned EXP::State::GetId(void) const
+unsigned EXP::State::GetUUID() const
 {
     return id;
 }

@@ -23,7 +23,6 @@ namespace EXP {
         
         virtual glm::vec2 GetCoordinates() const;
         virtual void UpdateCoordinates();
-        virtual void PrintCoordinates() const;
     protected:
         std::shared_ptr<EXP::RenderTarget> target;
         std::atomic<float> x;

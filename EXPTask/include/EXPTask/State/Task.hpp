@@ -29,7 +29,7 @@ namespace EXP {
         bool IsRunning();
         void LogTime(void) const;
         
-        EXP::State* CreateState(unsigned id);
+        EXP::State* CreateState(unsigned *id);
         EXP::State* GetStateById(unsigned id);
         
     protected:

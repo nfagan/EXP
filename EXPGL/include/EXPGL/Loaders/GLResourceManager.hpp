@@ -42,7 +42,9 @@ namespace EXP {
             item->set_identifier(id);
             items.push_back(item);
             types.push_back(std::type_index(typeid(T)));
-            indices[name] = n_items;
+            //  obviously irrelevant for now, but will come in handy when
+            //  deletion is implemented
+            indices[n_items] = n_items;
             n_items++;
             return item;
         }
@@ -52,15 +54,13 @@ namespace EXP {
         Model* CreateSphere(int vertex_count = 128);
         Model* CreateTriangle();
         
-        void SetName(GLResourcePrimitive *resource, const std::string &name);
-        
         template<typename T>
-        T* Get(const std::string &name)
+        T* Get(const unsigned int uuid)
         {
-            auto it = indices.find(name.c_str());
+            auto it = indices.find(uuid);
             if (it == indices.end())
             {
-                throw std::runtime_error("No items with the name `" + name + "` were present.");
+                throw std::runtime_error("No items with the name `" + std::to_string(uuid) + "` were present.");
             }
             GLResourcePrimitive *item = items[it->second];
             if (std::type_index(typeid(T)) != types[it->second])
@@ -74,12 +74,15 @@ namespace EXP {
         std::vector<T*> GetByTag(const std::string &tag)
         {
             std::vector<T*> res;
-            for (unsigned i = 0; i < items.size(); ++i)
+            for (const auto& primitive : items)
             {
-                if (items[i]->GetIdentifier().GetTag() == tag)
+                if (primitive->GetIdentifier().GetTag() == tag)
                 {
-                    T* item = dynamic_cast<T*>(items[i]);
-                    EXP_ASSERT(item, "The type of the retreived item must match its original type.");
+                    T* item = dynamic_cast<T*>(primitive);
+                    if (!item)
+                    {
+                        throw std::runtime_error("The type of the retreived item must match its original type.");
+                    }
                     res.push_back(item);
                 }
             }
@@ -90,13 +93,14 @@ namespace EXP {
         T* GetTexture(const char *filename)
         {
             return texture_loader->GetTexture(filename);
-        };
+        }
+        
     private:
         std::shared_ptr<RenderTarget> target;
         std::unique_ptr<TextureLoader> texture_loader;
         std::vector<GLResourcePrimitive*> items;
         std::vector<std::type_index> types;
-        std::unordered_map<std::string, unsigned int> indices;
+        std::unordered_map<unsigned int, unsigned int> indices;
         unsigned n_items;
         
         Model* make_model(Mesh *mesh);
