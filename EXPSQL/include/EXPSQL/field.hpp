@@ -95,40 +95,6 @@ protected:
     
     virtual const std::string to_string(void) const { return ""; }
     
-    //
-    //  Iterators
-    //
-    
-    struct name_inserter {
-        std::string &query;
-        name_inserter(std::string &query) : query(query) {};
-        template<typename X = field_priv<T>>
-        void operator () (X&& t)
-        {
-            t.insert_name(this->query);
-        }
-    };
-    
-    struct value_inserter {
-        std::string &query;
-        value_inserter(std::string &query) : query(query) {};
-        template<typename X = field_priv<T>>
-        void operator () (X&& t)
-        {
-            t.insert_value(this->query);
-        }
-    };
-    
-    struct table_creator {
-        std::string &query;
-        table_creator(std::string &query) : query(query) {};
-        template<typename X = field_priv<T>>
-        void operator () (X&& t)
-        {
-            t.create_table(this->query);
-        }
-    };
-    
     void throw_if_not_committed(std::string op_name = "(unnamed)") const
     {
         if (!did_commit)

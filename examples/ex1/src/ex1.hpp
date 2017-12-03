@@ -154,7 +154,8 @@ void task_thread_loop()
     auto curs = conn.get_cursor();
     auto row = get_data_row();
     
-    bool result = curs->require(row, "table1");
+    bool cursor_result = curs->drop("table1");
+    cursor_result = curs->require(row, "table1");
 //    curs->create(row, "table1");
     
     //
@@ -266,7 +267,7 @@ void task_thread_loop()
 //        if (false)
         {
             std::cout << "\n\nFailed to store data. Aborting ... \n\n" << std::endl;
-            globals::task->ExitNow();
+//            globals::task->ExitNow();
             return;
         }
         

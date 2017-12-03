@@ -151,6 +151,12 @@ bool EXP::sql::connection::exec_to_int(const std::string &query, int *value) con
     return status;
 }
 
+bool EXP::sql::connection::drop(const std::string &name) const
+{
+    std::string query = require_quoted_text("DROP TABLE %Q;", name);
+    return exec(query, nullptr);
+}
+
 int EXP::sql::connection::sqlite_callback(void *data, int argc, char *argv[], char *col_name[])
 {
     std::string *result = (std::string*) data;

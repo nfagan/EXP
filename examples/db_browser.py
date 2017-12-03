@@ -16,7 +16,7 @@ def __main__():
 		print('File {0} does not exist.'.format(full_filename))
 		return
 
-	conn = sqlite3.connect(path.join('../bin', filename))
+	conn = sqlite3.connect(full_filename)
 	cur = conn.cursor()
 	cur.execute('SELECT * FROM {0}'.format(table))
 	rows = cur.fetchall()

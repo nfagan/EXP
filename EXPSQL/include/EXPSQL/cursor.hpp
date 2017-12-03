@@ -51,12 +51,17 @@ public:
         return err;
     }
     
+    bool drop(std::string name)
+    {
+        return conn->drop(name);
+    }
+    
     template <typename ...T>
     bool create(std::shared_ptr<row<T...>> &value, std::string name) const
     {
         std::string query = "CREATE TABLE " + name;
         query += "(ID INT PRIMARY KEY NOT NULL,";
-        value->for_each(field<int>::table_creator(query));
+        value->for_each([&query] (auto &x) { x.create_table(query); });
         query.erase(query.length()-1, 1);
         query += ");";
         return exec(query, nullptr);
@@ -66,10 +71,10 @@ public:
     bool insert(std::shared_ptr<row<T...>> &value, int id, std::string table) const
     {
         std::string query = "INSERT INTO " + table + " (ID,";
-        value->for_each(field<int>::name_inserter(query));
+        value->for_each([&query] (auto &x) { x.insert_name(query); });
         query.erase(query.length()-1, 1);
         query += ") VALUES (" + std::to_string(id) + ",";
-        value->for_each(field<int>::value_inserter(query));
+        value->for_each([&query] (auto &x) { x.insert_value(query); });
         query.erase(query.length()-1, 1);
         query += ");";
         return exec(query, nullptr);
