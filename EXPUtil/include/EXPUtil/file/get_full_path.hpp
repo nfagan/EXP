@@ -34,9 +34,9 @@ namespace EXP {
             }
             return std::string(abs_path);
             free(abs_path);
+#endif
         }
     }
-#endif
 }
 
 #endif /* get_full_path_h */
