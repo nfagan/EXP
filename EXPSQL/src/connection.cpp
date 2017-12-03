@@ -73,9 +73,17 @@ std::shared_ptr<EXP::sql::cursor> EXP::sql::connection::get_cursor() const
     return std::make_shared<EXP::sql::cursor>(this);
 }
 
-bool EXP::sql::connection::exec(const std::string &query) const
+bool EXP::sql::connection::exec(const std::string &query, std::string *result) const
 {
-    int rc = sqlite3_exec(db, query.c_str(), NULL, NULL, NULL);
+    int rc;
+    if (result)
+    {
+        rc = sqlite3_exec(db, query.c_str(), EXP::sql::connection::sqlite_callback, (void*) result, NULL);
+    }
+    else
+    {
+        rc = sqlite3_exec(db, query.c_str(), NULL, NULL, NULL);
+    }
     if (rc != SQLITE_OK)
     {
         std::cout << "Failed to execute query `" << query << "`, with message:" << std::endl;
@@ -83,4 +91,82 @@ bool EXP::sql::connection::exec(const std::string &query) const
         return false;
     }
     return true;
+}
+
+void EXP::sql::connection::exists(const std::string &name, bool *err, bool *exist) const
+{
+    if (err == nullptr || exist == nullptr)
+        throw std::logic_error("Passed null value(s) to exists().");
+    const char *unsafe_query = "select count(type) from sqlite_master where type='table' and name=%Q;";
+    std::string safe_query = require_quoted_text(unsafe_query, name);
+    *err = false;
+    *exist = false;
+    int iexist;
+    if (!exec_to_int(safe_query, &iexist))
+    {
+        *err = true;
+        *exist = false;
+    }
+    else
+    {
+        *err = false;
+        *exist = iexist == 1;
+    }
+}
+
+void EXP::sql::connection::size(const std::string &name, bool *err, int *sz) const
+{
+    if (err == nullptr || sz == nullptr)
+        throw std::logic_error("Passed null value(s) to size().");
+    std::string safe_query = require_quoted_text("select count(*) from %Q;", name);
+    int sz_;
+    if (exec_to_int(safe_query, &sz_))
+    {
+        *err = false;
+        *sz = sz_;
+    }
+    else
+    {
+        *err = true;
+        *sz = 0;
+    }
+}
+
+bool EXP::sql::connection::exec_to_int(const std::string &query, int *value) const
+{
+    if (value == nullptr)
+        throw std::logic_error("Passed a null value to exec_to_int().");
+    std::string result;
+    bool status = exec(query, &result);
+    if (!status)
+        return false;
+    try {
+        int transformed = atoi(result.c_str());
+        *value = transformed;
+        status = true;
+    } catch (...) {
+        *value = 0;
+        status = false;
+    }
+    return status;
+}
+
+int EXP::sql::connection::sqlite_callback(void *data, int argc, char *argv[], char *col_name[])
+{
+    std::string *result = (std::string*) data;
+    for (unsigned int i = 0; i < argc; ++i)
+    {
+        if (argv[i])
+        {
+            result->append(argv[i]);
+        }
+    }
+    
+    return 0;
+}
+
+std::string EXP::sql::connection::require_quoted_text(const char *qstring, const std::string &values)
+{
+    char *result = sqlite3_mprintf(qstring, values.c_str());
+    return std::string(result);
 }

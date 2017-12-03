@@ -35,7 +35,13 @@ private:
     std::string file;
     bool is_open_;
     
-    bool exec(const std::string &query) const;
+    bool exec(const std::string &query, std::string *result) const;
+    bool exec_to_int(const std::string &query, int *result) const;
+    void exists(const std::string &name, bool *err, bool *exist) const;
+    void size(const std::string &name, bool *err, int *sz) const;
+    
+    static int sqlite_callback(void *data, int argc, char *argv[], char *col_namep[]);
+    static std::string require_quoted_text(const char *qstring, const std::string &values);
 };
 
 }

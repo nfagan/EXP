@@ -89,10 +89,9 @@ namespace EXP {
             return res;
         }
         
-        template<typename T>
-        T* GetTexture(const char *filename)
+        Texture* GetTexture(std::string filename)
         {
-            return texture_loader->GetTexture(filename);
+            return texture_loader->GetTexture(filename.c_str());
         }
         
     private:

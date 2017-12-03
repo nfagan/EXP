@@ -32,8 +32,9 @@ namespace EXP {
                 std::cout << "Invalid path" << std::endl;
                 return "";
             }
-            return std::string(abs_path);
+            std::string result(abs_path);
             free(abs_path);
+            return result;
 #endif
         }
     }

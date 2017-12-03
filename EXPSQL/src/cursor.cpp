@@ -16,9 +16,9 @@ EXP::sql::cursor::cursor(const EXP::sql::connection *conn) : conn(conn)
     //
 }
 
-bool EXP::sql::cursor::exec(const std::string &query)
+bool EXP::sql::cursor::exec(const std::string &query, std::string *result) const
 {
-    return conn->exec(query);
+    return conn->exec(query, result);
 }
 
 

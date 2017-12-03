@@ -41,5 +41,6 @@
 #include <EXPGL/Util/Colors.hpp>
 #include <EXPGL/Util/Positions2D.hpp>
 #include <EXPGL/Util/Rect.hpp>
+#include <EXPGL/Util/Keys.hpp>
 
 #endif /* EXPGL_hpp */
