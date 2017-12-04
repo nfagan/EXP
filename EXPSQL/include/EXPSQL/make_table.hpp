@@ -12,7 +12,7 @@
 
 #define EXPSQL_MAKE_FIELD(fieldname, type)                                  \
     namespace {                                                             \
-        const char fieldname##__[] = #fieldname;                            \
+        extern const char fieldname##__[] = #fieldname;                     \
         typedef EXP::sql::field<fieldname##__, type> fieldname;             \
     }                                                                       \
 
