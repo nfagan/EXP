@@ -70,6 +70,13 @@ public:
     template<typename ...T>
     bool insert(std::shared_ptr<row<T...>> &value, int id, std::string table) const
     {
+        std::string non_committed;
+        bool all_committed = value->all_committed(non_committed);
+        if (!all_committed)
+        {
+            std::cout << "Inserting data requires that fields `" + non_committed + "` be committed first.";
+            return false;
+        }
         std::string query = "INSERT INTO " + table + " (ID,";
         value->for_each([&query] (auto &x) { x.insert_name(query); });
         query.erase(query.length()-1, 1);

@@ -12,7 +12,6 @@
 #include <EXPTask.hpp>
 #include <EXPGL.hpp>
 #include <EXPSQL/EXPSQL.hpp>
-#include <EXPSQL/make_table.hpp>
 #include <EXPUtil/file/get_full_path.hpp>
 #include <iostream>
 #include <thread>
@@ -67,15 +66,17 @@ namespace globals {
 //  sql stuff
 //
 
-namespace database {
+namespace db {
     
-    EXPSQL_MAKE_FIELD(choice_type, string)
-    EXPSQL_MAKE_FIELD(choice_time, float)
-    EXPSQL_MAKE_TABLE(data_table, choice_type, choice_time)
+    //  build the trial data table
+    EXPSQL_MAKE_FIELD(choice_type, string);
+    EXPSQL_MAKE_FIELD(choice_time, float);
+    EXPSQL_MAKE_TABLE(data_table, choice_type, choice_time);
     
-    EXPSQL_MAKE_FIELD(error_no_look, int)
-    EXPSQL_MAKE_FIELD(error_no_fixation, int)
-    EXPSQL_MAKE_TABLE(error_table, error_no_look, error_no_fixation)
+    //  build the task errors table
+    EXPSQL_MAKE_FIELD(error_no_look, int);
+    EXPSQL_MAKE_FIELD(error_no_fixation, int);
+    EXPSQL_MAKE_TABLE(error_table, error_no_look, error_no_fixation);
     
     constexpr int choice_type = 0;
     constexpr int choice_time = 1;
@@ -83,12 +84,12 @@ namespace database {
 
 auto get_error_table()
 {
-    return std::make_shared<database::error_table>(globals::conn.get_cursor(), "error_table");
+    return std::make_shared<db::error_table>(globals::conn.get_cursor(), "error_table");
 }
     
 auto get_data_table()
 {
-    return std::make_shared<database::data_table>(globals::conn.get_cursor(), "data_table");
+    return std::make_shared<db::data_table>(globals::conn.get_cursor(), "data_table");
 }
 //
 //  task stuff
@@ -130,8 +131,11 @@ void task_thread_loop()
     State *state2 = globals::task->CreateState(&ids::STATE2);
     State *state3 = globals::task->CreateState(&ids::STATE3);
     
-    auto first_table = get_data_table();
-    auto row = first_table->get_row();
+    auto data_table = get_data_table();
+    auto error_table = get_error_table();
+    
+    data_table->drop();
+    data_table->create();
     
     //
     //  state 1
@@ -212,7 +216,29 @@ void task_thread_loop()
         return x >= bounds[0] && x <= bounds[2] && y >= bounds[1] && y <= bounds[3];
     });
     
-    target_set.OnEllapsed([] (auto state, auto target) {
+    target_set.OnEllapsed([&] (auto state, auto target) {
+        unsigned id = target->GetId();
+        auto row = data_table->get_row();
+        double choice_time_s = globals::task->EllapsedTime().count();
+        row->commit<db::choice_time>(choice_time_s);
+        if (id == 0)
+        {
+            std::cout << "Chose left!" << std::endl;
+            if (!row->commit<db::choice_type>("left"))
+                std::cout << "Failed to commit data." << std::endl;
+        }
+        else
+        {
+            std::cout << "Chose right!" << std::endl;
+            if (!row->commit<db::choice_type>("right"))
+                std::cout << "Failed to commit data." << std::endl;
+        }
+        if (!data_table->insert())
+        {
+            std::cout << "\n\nFailed to store data. Aborting ... \n\n" << std::endl;
+            return;
+        }
+        
         globals::pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
             auto rsrc = globals::pipeline.GetResource();
             auto mat = rsrc->Get<Material>(ids::MAT1);
@@ -224,25 +250,6 @@ void task_thread_loop()
     
     target_set.OnTargetEntry([&] (auto state, auto target) {
         unsigned id = target->GetId();
-        row->reset();
-        auto &choice_type = row->get<database::choice_type>();
-        auto &choice_time = row->get<database::choice_time>();
-        double choice_time_s = globals::task->EllapsedTime().count();
-        choice_time.commit(choice_time_s);
-        if (id == 0)
-        {
-            choice_type.commit("right");
-        }
-        else
-        {
-            choice_type.commit("left");
-        }
-        if (!first_table->insert())
-        {
-            std::cout << "\n\nFailed to store data. Aborting ... \n\n" << std::endl;
-            return;
-        }
-        
         globals::pipeline.GetRenderLoop()->OnceDrawReady([id] (auto looper) {
             auto rsrc = globals::pipeline.GetResource();
             auto rect = rsrc->Get<Model>(ids::MAIN_RECT);

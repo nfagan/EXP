@@ -47,6 +47,11 @@ public:
         return true;
     }
     
+    bool create()
+    {
+        return curs->create(row_, name);
+    }
+    
     bool drop()
     {
         return curs->drop(name);

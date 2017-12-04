@@ -10,6 +10,7 @@
 
 #include <string>
 #include <memory>
+#include <functional>
 
 struct sqlite3;
 
@@ -30,6 +31,7 @@ public:
     bool close();
     
     std::shared_ptr<cursor> get_cursor() const;
+    static std::string require_quoted_text(const char *qstring, const std::string &values);
 private:
     sqlite3 *db;
     std::string file;
@@ -42,7 +44,6 @@ private:
     bool drop(const std::string &name) const;
     
     static int sqlite_callback(void *data, int argc, char *argv[], char *col_namep[]);
-    static std::string require_quoted_text(const char *qstring, const std::string &values);
 };
 
 }

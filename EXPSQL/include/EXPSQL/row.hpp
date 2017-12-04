@@ -51,9 +51,29 @@ public:
         return std::get<N>(fields);
     }
     
+    template<int N, typename X>
+    bool commit(X data)
+    {
+        auto &field_ = get<N>();
+        return field_.commit(data);
+    }
+    
     void reset()
     {
         for_each([] (auto &x) { x.reset(); });
+    }
+    
+    bool all_committed(std::string &non_committed)
+    {
+        bool any_not_committed = false;
+        for_each([&any_not_committed, &non_committed] (const auto &x) {
+            if (!x.did_commit)
+            {
+                any_not_committed = true;
+                non_committed += x.get_name() + ",";
+            }
+        });
+        return !any_not_committed;
     }
     
     template<typename F>

@@ -12,7 +12,7 @@
 #include <string>
 #include <assert.h>
 #include <vector>
-#include <sqlite3/sqlite3.h>
+#include <EXPSQL/connection.hpp>
 
 namespace EXP {
 namespace sql {
@@ -31,10 +31,7 @@ namespace {
     }
     template<> std::string to_string_impl<std::string>(std::string data)
     {
-        char *text = sqlite3_mprintf("%Q", data.c_str());
-        std::string text_(text);
-        sqlite3_free(text);
-        return text_;
+        return connection::require_quoted_text("%Q", data);
     }
 }
 
@@ -46,9 +43,10 @@ public:
     
     ~field() = default;
     
-    void commit(T data) { set_data(data); }
-    const T& get_data(void) const { return data; }
-    const std::string& get_sql_type(void) const { return sql_type; };
+    bool commit(T data) { return set_data(data); }
+    const T& get_data() const { return data; }
+    const std::string& get_sql_type() const { return sql_type; };
+    const std::string get_name() const { return name; };
     
     void create_table(std::string &query) const
     {
@@ -57,14 +55,12 @@ public:
     
     void insert_value(std::string &query) const
     {
-        throw_if_not_committed("insertion");
         query += to_string();
         query += ",";
     }
     
     void insert_name(std::string &query) const
     {
-        throw_if_not_committed("insertion");
         query += name;
         query += ",";
     }
@@ -81,12 +77,12 @@ protected:
     std::string sql_type;
     T data;
     
-    void set_data(T data)
+    bool set_data(T data)
     {
         if (did_commit)
         {
             std::string msg = "Already commited data for field named `" + name + "`.";
-            throw std::runtime_error(msg);
+            return false;
         }
         if (std::is_same<T, int>::value)
         {
@@ -102,21 +98,13 @@ protected:
         }
         this->data = data;
         did_commit = true;
+        return true;
     }
     
-    virtual const std::string to_string() const
+    const std::string to_string() const
     {
         return to_string_impl(data);
     }
-    
-    void throw_if_not_committed(std::string op_name = "(unnamed)") const
-    {
-        if (!did_commit)
-        {
-            std::string msg = "Operation `" + op_name + "` requires that data in `" + name + "` be committed first.";
-            throw std::runtime_error(msg);
-        }
-    };
 };
 }
 }

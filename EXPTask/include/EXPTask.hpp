@@ -9,9 +9,7 @@
 #ifndef EXPTask_h
 #define EXPTask_h
 
-#include <EXPTask/Tracking/TargetXY.hpp>
-#include <EXPTask/Tracking/BoundsXY.hpp>
-#include <EXPTask/Tracking/BoundsRectangle.hpp>
+#include <EXPTask/Tracking/Target.hpp>
 
 #include <EXPTask/Time/Keeper.hpp>
 #include <EXPTask/Time/Timer.hpp>

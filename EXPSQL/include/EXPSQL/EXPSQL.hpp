@@ -13,5 +13,6 @@
 #include <EXPSQL/field.hpp>
 #include <EXPSQL/row.hpp>
 #include <EXPSQL/table.hpp>
+#include <EXPSQL/constructors.hpp>
 
 #endif /* EXPSQL_h */
