@@ -62,7 +62,6 @@ public:
     const std::string get_name() const
     {
         return name;
-        
     }
     void create_table(std::string &query) const
     {
@@ -105,7 +104,7 @@ protected:
         {
             sql_type = "TEXT";
         }
-        if (std::is_same<T, float>::value)
+        if (std::is_same<T, float>::value || std::is_same<T, double>::value)
         {
             sql_type = "REAL";
         }

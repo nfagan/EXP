@@ -76,6 +76,12 @@ public:
         for_each([] (auto &x) { x.reset(); });
     }
     
+    bool all_committed()
+    {
+        std::string dummy_non_committed;
+        return all_committed(dummy_non_committed);
+    }
+    
     bool all_committed(std::string &non_committed)
     {
         bool any_not_committed = false;
@@ -95,6 +101,10 @@ public:
         for_each_impl(fields, f, gen_seq<N>());
     }
     
+    constexpr int size()
+    {
+        return N;
+    }
 private:
     static const int N = (sizeof...(T));
     std::tuple<T...> fields;
