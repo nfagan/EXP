@@ -67,9 +67,7 @@ namespace globals {
 //  sql stuff
 //
 
-namespace sql {
-    
-    using namespace EXP::sql;
+namespace database {
     
     EXPSQL_MAKE_FIELD(choice_type, string)
     EXPSQL_MAKE_FIELD(choice_time, float)
@@ -85,12 +83,12 @@ namespace sql {
 
 auto get_error_table()
 {
-    return std::make_shared<sql::error_table>(globals::conn.get_cursor(), "error_table");
+    return std::make_shared<database::error_table>(globals::conn.get_cursor(), "error_table");
 }
     
 auto get_data_table()
 {
-    return std::make_shared<sql::data_table>(globals::conn.get_cursor(), "data_table");
+    return std::make_shared<database::data_table>(globals::conn.get_cursor(), "data_table");
 }
 //
 //  task stuff
@@ -227,8 +225,8 @@ void task_thread_loop()
     target_set.OnTargetEntry([&] (auto state, auto target) {
         unsigned id = target->GetId();
         row->reset();
-        auto &choice_type = row->get<sql::choice_type>();
-        auto &choice_time = row->get<sql::choice_time>();
+        auto &choice_type = row->get<database::choice_type>();
+        auto &choice_time = row->get<database::choice_time>();
         double choice_time_s = globals::task->EllapsedTime().count();
         choice_time.commit(choice_time_s);
         if (id == 0)

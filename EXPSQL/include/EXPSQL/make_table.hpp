@@ -13,10 +13,10 @@
 #define EXPSQL_MAKE_FIELD(fieldname, type)                                  \
     namespace {                                                             \
         const char fieldname##__[] = #fieldname;                            \
-        typedef field<fieldname##__, type> fieldname;                       \
+        typedef EXP::sql::field<fieldname##__, type> fieldname;             \
     }                                                                       \
 
 #define EXPSQL_MAKE_TABLE(name, ...)                                        \
-    typedef table<__VA_ARGS__> name;
+    typedef EXP::sql::table<__VA_ARGS__> name;
 
 #endif /* make_table_h */
