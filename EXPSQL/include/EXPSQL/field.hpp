@@ -21,6 +21,10 @@ class cursor;
     
 namespace {
     template<typename T> std::string to_string_impl(T data);
+    template<> std::string to_string_impl<double>(double data)
+    {
+        return std::to_string(data);
+    }
     template<> std::string to_string_impl<float>(float data)
     {
         return std::to_string(data);

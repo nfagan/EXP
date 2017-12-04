@@ -17,6 +17,7 @@
 #include <thread>
 #include <memory>
 #include <string>
+#include <vector>
 
 namespace EX1 {
     
@@ -24,8 +25,8 @@ using namespace EXP;
 using std::string;
     
 namespace paths {
-    string EXAMPLES = file::get_full_path("../");
-    const string TEX("/res/textures/tex1.png");
+    string examples = file::get_full_path("../");
+    const string tex1("/res/textures/tex1.png");
 }
     
 namespace ids {
@@ -69,7 +70,7 @@ namespace db {
     
     //  build the trial data table
     EXPSQL_MAKE_FIELD(choice_type, string);
-    EXPSQL_MAKE_FIELD(choice_time, float);
+    EXPSQL_MAKE_FIELD(choice_time, double);
     EXPSQL_MAKE_TABLE(DATA, choice_type, choice_time);
     
     //  build the task errors table
@@ -227,7 +228,7 @@ void task_thread_loop()
         globals::pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
             auto rsrc = globals::pipeline.GetResource();
             auto mat = rsrc->Get<Material>(ids::MAT1);
-            string texture_path = paths::EXAMPLES + paths::TEX;
+            string texture_path = paths::examples + paths::tex1;
             auto tex = rsrc->GetTexture(texture_path);
             mat->SetAlbedo(tex);
         });
@@ -340,7 +341,7 @@ bool gl_init()
 {
     using namespace globals;
     
-    pipeline.Begin(0, 400, 400);
+    pipeline.Begin();
     
     if (!pipeline.IsInitialized())
     {

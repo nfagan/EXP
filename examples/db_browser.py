@@ -5,7 +5,7 @@ from os import path
 def __main__():
 
 	filename = 'test1.db'
-	table = 'data_table'
+	table = 'DATA'
 
 	i = 1
 	while i < len(sys.argv):
