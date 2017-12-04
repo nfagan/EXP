@@ -17,14 +17,14 @@
 namespace EXP {
 namespace sql {
 
-template<typename ...T>
+template<const char *name_, typename ...T>
 class table
 {
 public:
-    table(std::shared_ptr<cursor> curs, std::string name)
+    table(std::shared_ptr<cursor> curs)
     {
         this->curs = curs;
-        this->name = name;
+        this->name = std::string(name_);
         row_ = std::make_shared<row<T...>>();
         status = true;
         require();
@@ -32,11 +32,6 @@ public:
     }
     
     ~table() = default;
-    
-    auto get_row()
-    {
-        return row_;
-    }
     
     template<typename N, typename X>
     bool commit(X data)
@@ -69,10 +64,12 @@ public:
     }
     
     std::atomic<bool> status;
+    
 private:
     std::shared_ptr<row<T...>> row_;
     int size;
     std::string name;
+    static constexpr const char *name__ = name_;
     std::shared_ptr<cursor> curs;
     
     void get_size()

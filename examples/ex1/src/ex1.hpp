@@ -57,9 +57,6 @@ namespace globals {
     
     std::shared_ptr<InputKeyboard> keyboard;
     std::shared_ptr<InputXY> mouse;
-    
-    const char *test_file = "test1.db";
-    sql::connection conn(test_file);
 }
     
 //
@@ -67,34 +64,29 @@ namespace globals {
 //
 
 namespace db {
+    const char *test_file = "test1.db";
+    sql::connection conn(test_file);
     
     //  build the trial data table
     EXPSQL_MAKE_FIELD(choice_type, string);
     EXPSQL_MAKE_FIELD(choice_time, float);
-    EXPSQL_MAKE_TABLE(data_table, choice_type, choice_time);
+    EXPSQL_MAKE_TABLE(DATA, choice_type, choice_time);
     
     //  build the task errors table
     EXPSQL_MAKE_FIELD(error_no_look, int);
     EXPSQL_MAKE_FIELD(error_no_fixation, int);
-    EXPSQL_MAKE_TABLE(error_table, error_no_look, error_no_fixation);
-}
-
-auto get_error_table()
-{
-    return std::make_shared<db::error_table>(globals::conn.get_cursor(), "error_table");
+    EXPSQL_MAKE_TABLE(ERRORS, error_no_look, error_no_fixation);
+    
+    auto error_table = std::make_shared<ERRORS>(conn.get_cursor());
+    auto data_table = std::make_shared<DATA>(conn.get_cursor());
 }
     
-auto get_data_table()
-{
-    return std::make_shared<db::data_table>(globals::conn.get_cursor(), "data_table");
-}
 //
 //  task stuff
 //
 
 void render_loop(RenderLoop *looper)
 {
-    
     static glm::vec2 rect_pos = Positions2D::CENTER;
     
     globals::pipeline.Update();
@@ -128,11 +120,8 @@ void task_thread_loop()
     State *state2 = globals::task->CreateState(&ids::STATE2);
     State *state3 = globals::task->CreateState(&ids::STATE3);
     
-    auto data_table = get_data_table();
-    auto error_table = get_error_table();
-    
-    data_table->drop();
-    data_table->create();
+    db::data_table->drop();
+    db::data_table->create();
     
     //
     //  state 1
@@ -216,20 +205,20 @@ void task_thread_loop()
     target_set.OnEllapsed([&] (auto state, auto target) {
         unsigned id = target->GetId();
         double choice_time_s = globals::task->EllapsedTime().count();
-        data_table->commit<db::choice_time>(choice_time_s);
+        db::data_table->commit<db::choice_time>(choice_time_s);
         if (id == 0)
         {
             std::cout << "Chose left!" << std::endl;
-            if (!data_table->commit<db::choice_type>("left"))
+            if (!db::data_table->commit<db::choice_type>("left"))
                 std::cout << "Failed to commit data." << std::endl;
         }
         else
         {
             std::cout << "Chose right!" << std::endl;
-            if (!data_table->commit<db::choice_type>("right"))
+            if (!db::data_table->commit<db::choice_type>("right"))
                 std::cout << "Failed to commit data." << std::endl;
         }
-        if (!data_table->insert())
+        if (!db::data_table->insert())
         {
             std::cout << "\n\nFailed to store data. Aborting ... \n\n" << std::endl;
             return;

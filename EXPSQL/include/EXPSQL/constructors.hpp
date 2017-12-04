@@ -20,10 +20,13 @@
 //    typedef EXP::sql::table<__VA_ARGS__> name;
 
 #define EXPSQL_MAKE_TABLE(name, ...) \
-    class name : public EXP::sql::table<__VA_ARGS__> \
+    namespace { \
+        extern const char name##__[] = #name; \
+    } \
+    class name : public EXP::sql::table<name##__, __VA_ARGS__> \
     { \
     public: \
-        name (std::shared_ptr<EXP::sql::cursor> curs, std::string tbl) : EXP::sql::table<__VA_ARGS__>(curs, tbl) {} \
+    name (std::shared_ptr<EXP::sql::cursor> curs) : EXP::sql::table<name##__, __VA_ARGS__>(curs) {} \
     }
 
 #endif /* constructors_h */
