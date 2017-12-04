@@ -117,9 +117,9 @@ void task_thread_loop()
 {    
     globals::task = std::make_shared<Task>(globals::time);
     
-    State *state1 = globals::task->CreateState(&ids::STATE1);
-    State *state2 = globals::task->CreateState(&ids::STATE2);
-    State *state3 = globals::task->CreateState(&ids::STATE3);
+    auto *state1 = globals::task->CreateState(&ids::STATE1);
+    auto *state2 = globals::task->CreateState(&ids::STATE2);
+    auto *state3 = globals::task->CreateState(&ids::STATE3);
     
     db::data_table->drop();
     db::data_table->create();
