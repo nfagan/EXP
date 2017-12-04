@@ -5,10 +5,19 @@ from os import path
 def __main__():
 
 	filename = 'test1.db'
-	table = 'table1'
+	table = 'data_table'
 
-	if len(sys.argv) > 1:
-		filename = sys.argv[1]
+	i = 1
+	while i < len(sys.argv):
+		if sys.argv[i] == '--file' and i < len(sys.argv)-1:
+			filename = sys.argv[i+1]
+			i += 2
+			continue
+		elif sys.argv[i] == '--table' and i < len(sys.argv)-1:
+			table = sys.argv[i+1]
+			i += 2
+			continue
+		i += 1
 
 	full_filename = path.join('bin', filename)
 

@@ -58,30 +58,39 @@ namespace globals {
     
     std::shared_ptr<InputKeyboard> keyboard;
     std::shared_ptr<InputXY> mouse;
+    
+    const char *test_file = "test1.db";
+    sql::connection conn(test_file);
 }
     
 //
 //  sql stuff
 //
 
-namespace ft {
+namespace sql {
     
-    MAKE_FIELD(choice_types, choice_type, string)
-    MAKE_FIELD(choice_times, choice_time, float)
-    MAKE_FIELD(example2s, example2, string)
-    MAKE_TABLE(data_table, choice_types, choice_times, example2s)
+    using namespace EXP::sql;
+    
+    EXPSQL_MAKE_FIELD(choice_type, string)
+    EXPSQL_MAKE_FIELD(choice_time, float)
+    EXPSQL_MAKE_TABLE(data_table, choice_type, choice_time)
+    
+    EXPSQL_MAKE_FIELD(error_no_look, int)
+    EXPSQL_MAKE_FIELD(error_no_fixation, int)
+    EXPSQL_MAKE_TABLE(error_table, error_no_look, error_no_fixation)
     
     constexpr int choice_type = 0;
     constexpr int choice_time = 1;
 }
-    
-const char *test_file = "test1.db";
 
-sql::connection conn(test_file);
+auto get_error_table()
+{
+    return std::make_shared<sql::error_table>(globals::conn.get_cursor(), "error_table");
+}
     
 auto get_data_table()
 {
-    return std::make_shared<ft::data_table>(conn.get_cursor(), "table1");
+    return std::make_shared<sql::data_table>(globals::conn.get_cursor(), "data_table");
 }
 //
 //  task stuff
@@ -123,13 +132,8 @@ void task_thread_loop()
     State *state2 = globals::task->CreateState(&ids::STATE2);
     State *state3 = globals::task->CreateState(&ids::STATE3);
     
-    auto curs = conn.get_cursor();
-    bool cursor_result = curs->drop("table1");
     auto first_table = get_data_table();
     auto row = first_table->get_row();
-    
-//    cursor_result = curs->require(row, "table1");
-//    curs->create(row, "table1");
     
     //
     //  state 1
@@ -220,11 +224,11 @@ void task_thread_loop()
         });
     });
     
-    target_set.OnTargetEntry([&trial_number, &row] (auto state, auto target) {
+    target_set.OnTargetEntry([&] (auto state, auto target) {
         unsigned id = target->GetId();
         row->reset();
-        auto &choice_type = row->get<ft::choice_type>();
-        auto &choice_time = row->get<ft::choice_time>();
+        auto &choice_type = row->get<sql::choice_type>();
+        auto &choice_time = row->get<sql::choice_time>();
         double choice_time_s = globals::task->EllapsedTime().count();
         choice_time.commit(choice_time_s);
         if (id == 0)
@@ -235,12 +239,9 @@ void task_thread_loop()
         {
             choice_type.commit("left");
         }
-        auto curs = conn.get_cursor();
-        if (!curs->insert(row, trial_number, "table1"))
-//        if (false)
+        if (!first_table->insert())
         {
             std::cout << "\n\nFailed to store data. Aborting ... \n\n" << std::endl;
-//            globals::task->ExitNow();
             return;
         }
         

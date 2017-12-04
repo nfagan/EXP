@@ -40,8 +40,16 @@ public:
     
     bool insert()
     {
-        return curs->insert(row_, size);
+        if (!curs->insert(row_, size, name))
+            return false;
+        row_->reset();
         size++;
+        return true;
+    }
+    
+    bool drop()
+    {
+        return curs->drop(name);
     }
     
     std::atomic<bool> status;
