@@ -77,9 +77,6 @@ namespace db {
     EXPSQL_MAKE_FIELD(error_no_look, int);
     EXPSQL_MAKE_FIELD(error_no_fixation, int);
     EXPSQL_MAKE_TABLE(error_table, error_no_look, error_no_fixation);
-    
-    constexpr int choice_type = 0;
-    constexpr int choice_time = 1;
 }
 
 auto get_error_table()
@@ -218,19 +215,18 @@ void task_thread_loop()
     
     target_set.OnEllapsed([&] (auto state, auto target) {
         unsigned id = target->GetId();
-        auto row = data_table->get_row();
         double choice_time_s = globals::task->EllapsedTime().count();
-        row->commit<db::choice_time>(choice_time_s);
+        data_table->commit<db::choice_time>(choice_time_s);
         if (id == 0)
         {
             std::cout << "Chose left!" << std::endl;
-            if (!row->commit<db::choice_type>("left"))
+            if (!data_table->commit<db::choice_type>("left"))
                 std::cout << "Failed to commit data." << std::endl;
         }
         else
         {
             std::cout << "Chose right!" << std::endl;
-            if (!row->commit<db::choice_type>("right"))
+            if (!data_table->commit<db::choice_type>("right"))
                 std::cout << "Failed to commit data." << std::endl;
         }
         if (!data_table->insert())

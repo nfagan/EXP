@@ -51,7 +51,20 @@ public:
         return std::get<N>(fields);
     }
     
+    template<typename X>
+    constexpr auto& get()
+    {
+        return std::get<X>(fields);
+    }
+    
     template<int N, typename X>
+    bool commit(X data)
+    {
+        auto &field_ = get<N>();
+        return field_.commit(data);
+    }
+    
+    template<typename N, typename X>
     bool commit(X data)
     {
         auto &field_ = get<N>();

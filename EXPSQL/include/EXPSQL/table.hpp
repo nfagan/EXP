@@ -38,6 +38,12 @@ public:
         return row_;
     }
     
+    template<typename N, typename X>
+    bool commit(X data)
+    {
+        return row_->template commit<N>(data);
+    }
+    
     bool insert()
     {
         if (!curs->insert(row_, size, name))
@@ -54,7 +60,12 @@ public:
     
     bool drop()
     {
-        return curs->drop(name);
+        if (curs->drop(name))
+        {
+            size = 0;
+            return true;
+        }
+        return false;
     }
     
     std::atomic<bool> status;

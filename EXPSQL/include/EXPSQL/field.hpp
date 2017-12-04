@@ -43,28 +43,37 @@ public:
     
     ~field() = default;
     
-    bool commit(T data) { return set_data(data); }
-    const T& get_data() const { return data; }
-    const std::string& get_sql_type() const { return sql_type; };
-    const std::string get_name() const { return name; };
-    
+    bool commit(T data)
+    {
+        return set_data(data);
+    }
+    const T& get_data() const
+    {
+        return data;
+    }
+    const std::string& get_sql_type() const
+    {
+        return sql_type;
+    }
+    const std::string get_name() const
+    {
+        return name;
+        
+    }
     void create_table(std::string &query) const
     {
         query += (name + " " + get_sql_type() + " NOT NULL,");
     }
-    
     void insert_value(std::string &query) const
     {
         query += to_string();
         query += ",";
     }
-    
     void insert_name(std::string &query) const
     {
         query += name;
         query += ",";
     }
-    
     void reset()
     {
         did_commit = false;
