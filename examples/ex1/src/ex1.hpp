@@ -341,7 +341,7 @@ bool gl_init()
 {
     using namespace globals;
     
-    pipeline.Begin();
+    pipeline.Begin(0, 400, 400);
     
     if (!pipeline.IsInitialized())
     {
