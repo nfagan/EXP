@@ -37,6 +37,7 @@ template<typename ...T>
 class row
 {
 public:
+    row() {};
     row(T... inputs) : fields(inputs...)
     {
         //

@@ -12,5 +12,6 @@
 #include <EXPSQL/cursor.hpp>
 #include <EXPSQL/field.hpp>
 #include <EXPSQL/row.hpp>
+#include <EXPSQL/table.hpp>
 
 #endif /* EXPSQL_h */

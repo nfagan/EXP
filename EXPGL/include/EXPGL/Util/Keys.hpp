@@ -8,7 +8,7 @@
 #ifndef Keys_h
 #define Keys_h
 
-#include <glfw/glfw3.h>
+#include <GLFW/glfw3.h>
 
 namespace EXP {
     namespace Keys {

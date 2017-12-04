@@ -12,28 +12,40 @@
 #include <string>
 #include <assert.h>
 #include <vector>
+#include <sqlite3/sqlite3.h>
 
 namespace EXP {
 namespace sql {
 
 class cursor;
+    
+namespace {
+    template<typename T> std::string to_string_impl(T data);
+    template<> std::string to_string_impl<float>(float data)
+    {
+        return std::to_string(data);
+    }
+    template<> std::string to_string_impl<int>(int data)
+    {
+        return std::to_string(data);
+    }
+    template<> std::string to_string_impl<std::string>(std::string data)
+    {
+        char *text = sqlite3_mprintf("%Q", data.c_str());
+        std::string text_(text);
+        sqlite3_free(text);
+        return text_;
+    }
+}
 
-template<typename T>
-class field_priv
+template<const char *name_, typename T>
+class field
 {
 public:
-    field_priv(std::string name) : did_commit(false)
-    {
-        set_name(name);
-    }
+    field() : did_commit(false), name(name_) {};
     
-    field_priv(std::string name, T data) : did_commit(false)
-    {
-        set_name(name);
-        set_data(data);
-    }
+    ~field() = default;
     
-    ~field_priv() = default;
     void commit(T data) { set_data(data); }
     const T& get_data(void) const { return data; }
     const std::string& get_sql_type(void) const { return sql_type; };
@@ -63,8 +75,8 @@ public:
     }
     
     bool did_commit;
-    
 protected:
+    static constexpr const char *name__ = name_;
     std::string name;
     std::string sql_type;
     T data;
@@ -91,9 +103,11 @@ protected:
         this->data = data;
         did_commit = true;
     }
-    void set_name(std::string name) { this->name = name; }
     
-    virtual const std::string to_string(void) const { return ""; }
+    virtual const std::string to_string() const
+    {
+        return to_string_impl(data);
+    }
     
     void throw_if_not_committed(std::string op_name = "(unnamed)") const
     {
@@ -104,72 +118,6 @@ protected:
         }
     };
 };
-
-template<typename T> class field;
-
-//
-//  string
-//
-
-template <> class field<std::string> : public field_priv<std::string>
-{
-friend class cursor;
-public:
-    field(std::string name) : field_priv(name) {};
-    field(std::string name, std::string val) : field_priv(name, val) {};
-    
-    const std::string to_string(void) const;
-};
-    
-//
-//  int
-//
-    
-template <> class field<int> : public field_priv<int>
-{
-friend class cursor;
-public:
-    field(std::string name) : field_priv(name) {};
-    field(std::string name, int val) : field_priv(name, val) {};
-    
-    const std::string to_string(void) const { return std::to_string(data); }
-};
-
-//
-//  float
-//
-    
-template <> class field<float> : public field_priv<float>
-{
-friend class cursor;
-public:
-    field(std::string name) : field_priv(name) {};
-    field(std::string name, float val) : field_priv(name, val) {};
-    
-    const std::string to_string(void) const { return std::to_string(data); }
-};
-
-////
-////  vector
-////
-//
-//template <> class field<std::vector<double>> : public field_priv<std::vector<double>>
-//{
-//friend class cursor;
-//public:
-//    field(std::string name) : field_priv(name) {};
-//    field(std::string name, std::vector<double> val) : field_priv(name, val) {};
-//
-//    const std::string to_string(void) const
-//    {
-//        std::string res = "";
-//        for (unsigned i = 0; i < data.size(); ++i)
-//        {
-//            res += std::to_string(data[i]);
-//        }
-//        return res;
-//    }
-//};
 }
 }
 

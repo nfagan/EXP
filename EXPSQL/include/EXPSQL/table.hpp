@@ -25,13 +25,15 @@ public:
     {
         this->curs = curs;
         this->name = name;
+        row_ = std::make_shared<row<T...>>();
+        status = true;
         require();
         get_size();
     }
     
     ~table() = default;
     
-    auto &get_row()
+    auto get_row()
     {
         return row_;
     }
@@ -44,8 +46,8 @@ public:
     
     std::atomic<bool> status;
 private:
-    row<T...> row_;
-    unsigned int size;
+    std::shared_ptr<row<T...>> row_;
+    int size;
     std::string name;
     std::shared_ptr<cursor> curs;
     

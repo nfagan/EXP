@@ -12,6 +12,7 @@
 #include <EXPTask.hpp>
 #include <EXPGL.hpp>
 #include <EXPSQL/EXPSQL.hpp>
+#include <EXPSQL/make_table.hpp>
 #include <EXPUtil/file/get_full_path.hpp>
 #include <iostream>
 #include <thread>
@@ -64,43 +65,23 @@ namespace globals {
 //
 
 namespace ft {
-    typedef sql::field<string> fieldstr;
-    typedef sql::field<int> fieldi;
-    typedef sql::field<float> fieldf;
-    typedef sql::row<fieldstr, fieldf> DATA;
+    
+    MAKE_FIELD(choice_types, choice_type, string)
+    MAKE_FIELD(choice_times, choice_time, float)
+    MAKE_FIELD(example2s, example2, string)
+    MAKE_TABLE(data_table, choice_types, choice_times, example2s)
     
     constexpr int choice_type = 0;
     constexpr int choice_time = 1;
 }
     
-struct choice_times {
-    typedef sql::field<string> fieldstr;
-    typedef sql::field<int> fieldi;
-    typedef sql::field<float> fieldf;
-    typedef sql::row<fieldstr, fieldf> DATA;
-    
-    static constexpr int choice_type = 0;
-    static constexpr int choice_time = 1;
-    
-    auto get_data_row()
-    {
-        using namespace ft;
-        fieldstr f1("choice_type");
-        fieldf f2("choice_time");
-        return std::make_shared<DATA>(f1, f2);
-    }
-};
-    
 const char *test_file = "test1.db";
 
 sql::connection conn(test_file);
     
-auto get_data_row()
+auto get_data_table()
 {
-    using namespace ft;
-    fieldstr f1("choice_type");
-    fieldf f2("choice_time");
-    return std::make_shared<DATA>(f1, f2);
+    return std::make_shared<ft::data_table>(conn.get_cursor(), "table1");
 }
 //
 //  task stuff
@@ -108,27 +89,24 @@ auto get_data_row()
 
 void render_loop(RenderLoop *looper)
 {
-    using globals::keyboard;
-    using globals::mouse;
-    using globals::pipeline;
     
     static glm::vec2 rect_pos = Positions2D::CENTER;
     
-    pipeline.Update();
-    mouse->UpdateCoordinates();
+    globals::pipeline.Update();
+    globals::mouse->UpdateCoordinates();
     
     float step_amount = 0.005f;
-    if (keyboard->KeyDown(Keys::A)) rect_pos.x -= step_amount;
-    if (keyboard->KeyDown(Keys::S)) rect_pos.y += step_amount;
-    if (keyboard->KeyDown(Keys::D)) rect_pos.x += step_amount;
-    if (keyboard->KeyDown(Keys::W)) rect_pos.y -= step_amount;
-    if (keyboard->KeyDown(Keys::C))
+    if (globals::keyboard->KeyDown(Keys::A)) rect_pos.x -= step_amount;
+    if (globals::keyboard->KeyDown(Keys::S)) rect_pos.y += step_amount;
+    if (globals::keyboard->KeyDown(Keys::D)) rect_pos.x += step_amount;
+    if (globals::keyboard->KeyDown(Keys::W)) rect_pos.y -= step_amount;
+    if (globals::keyboard->KeyDown(Keys::C))
     {
         rect_pos.x = 0.5f;
         rect_pos.y = 0.5f;
     }
     
-    auto rsrc = pipeline.GetResource();
+    auto rsrc = globals::pipeline.GetResource();
     
     auto rectangle = rsrc->Get<Model>(ids::MAIN_RECT);
     auto circle = rsrc->Get<Model>(ids::CIRCLE1);
@@ -138,24 +116,19 @@ void render_loop(RenderLoop *looper)
 }
 
 void task_thread_loop()
-{
-    using globals::task;
-    using globals::time;
-    using globals::keyboard;
-    using globals::mouse;
-    using globals::pipeline;
+{    
+    globals::task = std::make_shared<Task>(globals::time);
     
-    task = std::make_shared<Task>(time);
-    
-    State *state1 = task->CreateState(&ids::STATE1);
-    State *state2 = task->CreateState(&ids::STATE2);
-    State *state3 = task->CreateState(&ids::STATE3);
+    State *state1 = globals::task->CreateState(&ids::STATE1);
+    State *state2 = globals::task->CreateState(&ids::STATE2);
+    State *state3 = globals::task->CreateState(&ids::STATE3);
     
     auto curs = conn.get_cursor();
-    auto row = get_data_row();
-    
     bool cursor_result = curs->drop("table1");
-    cursor_result = curs->require(row, "table1");
+    auto first_table = get_data_table();
+    auto row = first_table->get_row();
+    
+//    cursor_result = curs->require(row, "table1");
 //    curs->create(row, "table1");
     
     //
@@ -172,9 +145,9 @@ void task_thread_loop()
         std::cout << "Entering state 1!" << std::endl;
         trial_number++;
         state->LogTime();
-        pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
+        globals::pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
             looper->ClearQueue();
-            auto rsrc = pipeline.GetResource();
+            auto rsrc = globals::pipeline.GetResource();
             auto elements = rsrc->GetByTag<Model>(tags::RECT3);
             auto rect = rsrc->Get<Model>(ids::MAIN_RECT);
             auto rect2 = rsrc->Get<Model>(ids::MAIN_RECT2);
@@ -192,8 +165,8 @@ void task_thread_loop()
     });
     
     state1->OnLoop([] (auto state) {
-        auto rsrc = pipeline.GetResource();
-        auto render_target = pipeline.GetTarget();
+        auto rsrc = globals::pipeline.GetResource();
+        auto render_target = globals::pipeline.GetTarget();
         auto rectangle = rsrc->Get<Model>(ids::MAIN_RECT);
         auto rect2 = rsrc->Get<Model>(ids::MAIN_RECT2);
         auto screen = render_target->GetFullRect();
@@ -216,8 +189,8 @@ void task_thread_loop()
     //  target set - state 1
     
     TargetSet &target_set = state1->GetTargetSet();
-    auto target1 = target_set.Create(mouse, Time::duration_ms(500));
-    auto target2 = target_set.Create(mouse, Time::duration_ms(500));
+    auto target1 = target_set.Create(globals::mouse, Time::duration_ms(500));
+    auto target2 = target_set.Create(globals::mouse, Time::duration_ms(500));
     
     target1->SetSize(50.0f);
     target2->SetSize(50.0f);
@@ -227,19 +200,19 @@ void task_thread_loop()
     //
     
     target1->OnBoundsCheck([] (auto target) -> bool {
-        auto rsrc = pipeline.GetResource();
+        auto rsrc = globals::pipeline.GetResource();
         auto rectangle = rsrc->Get<Model>(ids::MAIN_RECT);
-        auto render_target = pipeline.GetTarget();
+        auto render_target = globals::pipeline.GetTarget();
         auto bounds = util::geometry::get_bounding_rect_pixels(render_target, rectangle);
-        auto coordinates = mouse->GetCoordinates();
+        auto coordinates = globals::mouse->GetCoordinates();
         float x = coordinates.x;
         float y = coordinates.y;
         return x >= bounds[0] && x <= bounds[2] && y >= bounds[1] && y <= bounds[3];
     });
     
     target_set.OnEllapsed([] (auto state, auto target) {
-        pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
-            auto rsrc = pipeline.GetResource();
+        globals::pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
+            auto rsrc = globals::pipeline.GetResource();
             auto mat = rsrc->Get<Material>(ids::MAT1);
             string texture_path = paths::EXAMPLES + paths::TEX;
             auto tex = rsrc->GetTexture(texture_path);
@@ -271,8 +244,8 @@ void task_thread_loop()
             return;
         }
         
-        pipeline.GetRenderLoop()->OnceDrawReady([id] (auto looper) {
-            auto rsrc = pipeline.GetResource();
+        globals::pipeline.GetRenderLoop()->OnceDrawReady([id] (auto looper) {
+            auto rsrc = globals::pipeline.GetResource();
             auto rect = rsrc->Get<Model>(ids::MAIN_RECT);
             auto mat = rsrc->Get<Material>(ids::MAT1);
             auto tex = rsrc->Get<Material>(ids::TEX1);
@@ -290,8 +263,8 @@ void task_thread_loop()
     
     target_set.OnTargetExit([] (auto *state, auto target) {
         unsigned id = target->GetId();
-        pipeline.GetRenderLoop()->OnceDrawReady([id] (auto looper) {
-            auto rsrc = pipeline.GetResource();
+        globals::pipeline.GetRenderLoop()->OnceDrawReady([id] (auto looper) {
+            auto rsrc = globals::pipeline.GetResource();
             auto rect = rsrc->Get<Model>(ids::MAIN_RECT);
             auto mat = rsrc->Get<Material>(ids::MAT1);
             mat->SetAlbedo(Colors::RED);
@@ -307,9 +280,9 @@ void task_thread_loop()
     state2->SetTimeIn(Time::duration_ms(duration2));
     state2->OnEntry([] (auto state) {
         std::cout << "Entering state 2!" << std::endl;
-        pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
+        globals::pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
             looper->ClearQueue();
-            auto rsrc = pipeline.GetResource();
+            auto rsrc = globals::pipeline.GetResource();
             auto elements = rsrc->GetByTag<Model>(tags::RECT3);
             auto mat = rsrc->Get<Material>(ids::MAT1);
             auto rect = rsrc->Get<Model>(ids::MAIN_RECT);
@@ -334,9 +307,9 @@ void task_thread_loop()
     state3->SetTimeIn(Time::duration_ms(duration3));
     state3->OnEntry([] (auto state) {
         std::cout << "Entering state 3!" << std::endl;
-        pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
+        globals::pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
             looper->ClearQueue();
-            auto rsrc = pipeline.GetResource();
+            auto rsrc = globals::pipeline.GetResource();
             auto elements = rsrc->GetByTag<Model>(tags::RECT3);
             auto mat = rsrc->Get<Material>(ids::MAT_ANON);
             auto rect = rsrc->Get<Model>(ids::MAIN_RECT);
@@ -357,24 +330,24 @@ void task_thread_loop()
     //  task
     //
     
-    task->SetName("Task 1");
+    globals::task->SetName("Task 1");
     
     //  When the task is finished, exit out of the render loop.
-    task->OnExit([] (auto task) {
-        pipeline.GetRenderLoop()->CancelLoop();
+    globals::task->OnExit([] (auto task) {
+        globals::pipeline.GetRenderLoop()->CancelLoop();
     });
     
-    task->ExitOnKeyPress(keyboard, Keys::ESC);
-    task->Next(state1);
-    task->GetTimer()->Reset();
-    task->Run();
-    std::cout << task->ExitReason() << std::endl;
-    task->LogTime();
+    globals::task->ExitOnKeyPress(globals::keyboard, Keys::ESC);
+    globals::task->Next(state1);
+    globals::task->GetTimer()->Reset();
+    globals::task->Run();
+    std::cout << globals::task->ExitReason() << std::endl;
+    globals::task->LogTime();
 }
 
 bool gl_init()
 {
-    using globals::pipeline;
+    using namespace globals;
     
     pipeline.Begin(0, 400, 400);
     
