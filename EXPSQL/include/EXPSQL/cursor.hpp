@@ -12,6 +12,7 @@
 #include <EXPSQL/field.hpp>
 #include <iostream>
 #include <memory>
+#include <sstream>
 
 namespace EXP {
 namespace sql {
@@ -74,7 +75,9 @@ public:
         bool all_committed = value->all_committed(non_committed);
         if (!all_committed)
         {
-            std::cout << "Inserting data requires that fields `" + non_committed + "` be committed first.";
+            std::stringstream msg;
+            msg << "Inserting data requires that fields `" << non_committed  << "` be committed first.";
+            conn->log.error << msg.str();
             return false;
         }
         std::string query = "INSERT INTO " + table + " (ID,";

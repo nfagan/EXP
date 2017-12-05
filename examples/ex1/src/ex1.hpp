@@ -18,6 +18,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <EXPUtil/io/logger.hpp>
 
 namespace EX1 {
     
@@ -65,22 +66,48 @@ namespace globals {
 //
 
 namespace db {
-    const char *test_file = "test1.db";
+    std::string test_file = "test1.db";
     sql::connection conn(test_file);
     
     //  build the trial data table
     EXPSQL_MAKE_FIELD(choice_type, string);
+//     EXPSQL_MAKE_FIELD(choice_time, sql::hexfloat);   //  store exact representation
     EXPSQL_MAKE_FIELD(choice_time, double);
-    EXPSQL_MAKE_TABLE(DATA, choice_type, choice_time);
+    EXPSQL_MAKE_FIELD(trial_number, int);
+    EXPSQL_MAKE_TABLE(DATA, trial_number, choice_type, choice_time);
+    
+    EXPSQL_MAKE_FIELD(gaze_x, double);
+    EXPSQL_MAKE_FIELD(gaze_y, double);
+    EXPSQL_MAKE_FIELD(gaze_t, double);
+    EXPSQL_MAKE_TABLE(GAZE, trial_number, gaze_x, gaze_y, gaze_t);
     
     //  build the task errors table
     EXPSQL_MAKE_FIELD(error_no_look, int);
     EXPSQL_MAKE_FIELD(error_no_fixation, int);
     EXPSQL_MAKE_TABLE(ERRORS, error_no_look, error_no_fixation);
     
-    auto error_table = std::make_shared<ERRORS>(conn.get_cursor());
-    auto data_table = std::make_shared<DATA>(conn.get_cursor());
+    auto curs = conn.get_cursor();
+    
+    auto error_table = std::make_shared<ERRORS>(curs);
+    auto data_table = std::make_shared<DATA>(curs);
+    auto gaze_table = std::make_shared<GAZE>(curs);
 }
+    
+struct TrialData
+{
+    std::atomic<int> trial_number;
+    std::atomic<double> last_gaze_frame;
+    std::atomic<double> gaze_frequency;
+    
+    TrialData()
+    {
+        trial_number = 0;
+        last_gaze_frame = 0.0;
+        gaze_frequency = 1.0;
+    }
+};
+    
+auto trial_data = std::make_shared<TrialData>();
     
 //
 //  task stuff
@@ -121,22 +148,26 @@ void task_thread_loop()
     auto *state2 = globals::task->CreateState(&ids::STATE2);
     auto *state3 = globals::task->CreateState(&ids::STATE3);
     
+    //  log everything
+    db::conn.log_level(severity::all);
+    
     db::data_table->drop();
     db::data_table->create();
+    
+    db::gaze_table->drop();
+    db::gaze_table->create();
     
     //
     //  state 1
     //
     
-    int trial_number = 0;
-    
     int duration1 = 3000;
     
     state1->SetName("state 1");
     
-    state1->OnEntry([&trial_number] (auto state) {
+    state1->OnEntry([] (auto state) {
         std::cout << "Entering state 1!" << std::endl;
-        trial_number++;
+        trial_data->trial_number++;
         state->LogTime();
         globals::pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
             looper->ClearQueue();
@@ -207,24 +238,16 @@ void task_thread_loop()
         unsigned id = target->GetId();
         double choice_time_s = globals::task->EllapsedTime().count();
         db::data_table->commit<db::choice_time>(choice_time_s);
+        db::data_table->commit<db::trial_number>(trial_data->trial_number.load());
         if (id == 0)
         {
-            std::cout << "Chose left!" << std::endl;
-            if (!db::data_table->commit<db::choice_type>("left"))
-                std::cout << "Failed to commit data." << std::endl;
+            EXP_ASSERT(db::data_table->commit<db::choice_type>("left"), "Insertion failed.");
         }
         else
         {
-            std::cout << "Chose right!" << std::endl;
-            if (!db::data_table->commit<db::choice_type>("right"))
-                std::cout << "Failed to commit data." << std::endl;
+            EXP_ASSERT(db::data_table->commit<db::choice_type>("right"), "Insertion failed.");
         }
-        if (!db::data_table->insert())
-        {
-            std::cout << "\n\nFailed to store data. Aborting ... \n\n" << std::endl;
-            return;
-        }
-        
+        EXP_ASSERT(db::data_table->insert(), "Insertion failed.");
         globals::pipeline.GetRenderLoop()->OnceDrawReady([] (auto looper) {
             auto rsrc = globals::pipeline.GetResource();
             auto mat = rsrc->Get<Material>(ids::MAT1);
@@ -324,9 +347,28 @@ void task_thread_loop()
     
     globals::task->SetName("Task 1");
     
+    globals::task->OnError([] (auto task, auto err) {
+        std::cout << err.what() << std::endl;
+        globals::pipeline.GetRenderLoop()->CancelLoop();
+    });
+    
     //  When the task is finished, exit out of the render loop.
     globals::task->OnExit([] (auto task) {
         globals::pipeline.GetRenderLoop()->CancelLoop();
+    });
+    
+    globals::task->OnLoop([] (auto task) {
+        double this_frame = task->EllapsedTime().count();
+        double last_frame = trial_data->last_gaze_frame;
+        if (last_frame != 0.0 && this_frame - last_frame < trial_data->gaze_frequency)
+            return;
+        auto coords = globals::mouse->GetCoordinates();
+        db::gaze_table->commit<db::gaze_x>(coords.x);
+        db::gaze_table->commit<db::gaze_y>(coords.y);
+        db::gaze_table->commit<db::gaze_t>(task->EllapsedTime().count());
+        db::gaze_table->commit<db::trial_number>(trial_data->trial_number.load());
+//        db::gaze_table->insert();
+        trial_data->last_gaze_frame = this_frame;
     });
     
     globals::task->ExitOnKeyPress(globals::keyboard, Keys::ESC);

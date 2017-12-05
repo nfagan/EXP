@@ -10,9 +10,12 @@
 #include <sqlite3/sqlite3.h>
 #include <iostream>
 #include <memory>
+#include <sstream>
 
-EXP::sql::connection::connection(std::string file, bool do_open) : file(file), is_open_(false)
+EXP::sql::connection::connection(std::string file, bool do_open) : file(file)
 {
+    this->is_open_.store(false);
+    this->is_transacting_.store(false);
     if (do_open)
         open();
 }
@@ -21,6 +24,11 @@ EXP::sql::connection::~connection()
 {
     if (is_open_)
         close();
+}
+
+void EXP::sql::connection::log_level(EXP::severity::severity_ level)
+{
+    log.set_severity(level);
 }
 
 bool EXP::sql::connection::is_open() const
@@ -37,8 +45,12 @@ bool EXP::sql::connection::open()
     
     if (rc != SQLITE_OK)
     {
-        std::cout << "Failed to open database `" << file << "`, with message:" << std::endl;
-        std::cout << sqlite3_errmsg(db) << std::endl;
+        std::stringstream base;
+        std::stringstream msg;
+        base << "Failed to open database `" << file << "`, with message:" << std::endl;
+        msg << sqlite3_errmsg(db) << std::endl;
+        log.error << base.str();
+        log.error << msg.str();
         close();
         return false;
     }
@@ -59,8 +71,12 @@ bool EXP::sql::connection::close()
     
     if (rc != SQLITE_OK)
     {
-        std::cout << "Failed to close database `" << file << "`, with message:" << std::endl;
-        std::cout << sqlite3_errmsg(db) << std::endl;
+        std::stringstream base;
+        std::stringstream msg;
+        base << "Failed to close database `" << file << "`, with message:" << std::endl;
+        msg << sqlite3_errmsg(db) << std::endl;
+        log.error << base.str();
+        log.error << msg.str();
         return false;
     }
     
@@ -86,8 +102,12 @@ bool EXP::sql::connection::exec(const std::string &query, std::string *result) c
     }
     if (rc != SQLITE_OK)
     {
-        std::cout << "Failed to execute query `" << query << "`, with message:" << std::endl;
-        std::cout << sqlite3_errmsg(db) << std::endl;
+        std::stringstream base;
+        std::stringstream msg;
+        base << "Failed to execute query `" << query << "`, with message:" << std::endl;
+        msg << sqlite3_errmsg(db) << std::endl;
+        log.error << base.str();
+        log.error << msg.str();
         return false;
     }
     return true;
@@ -97,6 +117,7 @@ void EXP::sql::connection::exists(const std::string &name, bool *err, bool *exis
 {
     if (err == nullptr || exist == nullptr)
         throw std::logic_error("Passed null value(s) to exists().");
+    
     const char *unsafe_query = "select count(type) from sqlite_master where type='table' and name=%Q;";
     std::string safe_query = require_quoted_text(unsafe_query, name);
     *err = false;
@@ -118,6 +139,7 @@ void EXP::sql::connection::size(const std::string &name, bool *err, int *sz) con
 {
     if (err == nullptr || sz == nullptr)
         throw std::logic_error("Passed null value(s) to size().");
+    
     std::string safe_query = require_quoted_text("select count(*) from %Q;", name);
     int sz_;
     if (exec_to_int(safe_query, &sz_))
@@ -136,6 +158,7 @@ bool EXP::sql::connection::exec_to_int(const std::string &query, int *value) con
 {
     if (value == nullptr)
         throw std::logic_error("Passed a null value to exec_to_int().");
+    
     std::string result;
     bool status = exec(query, &result);
     if (!status)
@@ -155,6 +178,40 @@ bool EXP::sql::connection::drop(const std::string &name) const
 {
     std::string query = require_quoted_text("DROP TABLE %Q;", name);
     return exec(query, nullptr);
+}
+
+bool EXP::sql::connection::begin()
+{
+    if (is_transacting_)
+    {
+        std::stringstream msg;
+        msg << "Attempted to begin after already beginning." << std::endl;
+        log.error << msg.str();
+        return false;
+    }
+    if (exec("BEGIN TRANSACTION;", nullptr))
+    {
+        is_transacting_ = true;
+        return true;
+    }
+    return false;
+}
+
+bool EXP::sql::connection::commit()
+{
+    if (!is_transacting_)
+    {
+        std::stringstream msg;
+        msg << "Attempted to commit before beginning." << std::endl;
+        log.error << msg.str();
+        return false;
+    }
+    if (exec("END TRANSACTION;", nullptr))
+    {
+        is_transacting_ = false;
+        return true;
+    }
+    return false;
 }
 
 int EXP::sql::connection::sqlite_callback(void *data, int argc, char *argv[], char *col_name[])

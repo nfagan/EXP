@@ -22,9 +22,10 @@ namespace EXP {
         Task(EXP::Time::Keeper *keeper);
         virtual ~Task();
         
-        virtual void Run(void);
-        virtual void OnLoop(std::function<void(Task*)> on_loop);
-        virtual void OnExit(std::function<void(Task*)> on_exit);
+        void Run(void);
+        void OnLoop(std::function<void(Task*)> on_loop);
+        void OnExit(std::function<void(Task*)> on_exit);
+        void OnError(std::function<void(Task*, const std::runtime_error&)> on_error);
         
         bool IsRunning();
         void LogTime(void) const;
@@ -40,10 +41,12 @@ namespace EXP {
         
         std::function<void(Task*)> on_loop = &EXP::Task::empty;
         std::function<void(Task*)> on_exit = &EXP::Task::empty;
+        std::function<void(Task*, const std::runtime_error&)> on_error;
         
-        virtual void empty();
-        virtual void loop();
-        virtual void exit();
+        void empty();
+        void loop();
+        void exit();
+        void error(const std::runtime_error &err);
     };
 }
 

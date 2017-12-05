@@ -12,6 +12,9 @@
 #include <string>
 #include <assert.h>
 #include <vector>
+#include <sstream>
+#include <iomanip>
+#include <limits>
 #include <EXPSQL/connection.hpp>
 
 namespace EXP {
@@ -19,8 +22,21 @@ namespace sql {
 
 class cursor;
     
+struct hexfloat
+{
+    double value = 0.0;
+    hexfloat() = default;
+    hexfloat(double value) : value(value) {};
+};
+    
 namespace {
     template<typename T> std::string to_string_impl(T data);
+    template<> std::string to_string_impl<hexfloat>(hexfloat data)
+    {
+        std::stringstream ss;
+        ss << std::hexfloat << data.value;
+        return connection::require_quoted_text("%Q", ss.str());
+    }
     template<> std::string to_string_impl<double>(double data)
     {
         return std::to_string(data);
@@ -84,7 +100,6 @@ public:
     
     bool did_commit;
 protected:
-    static constexpr const char *name__ = name_;
     std::string name;
     std::string sql_type;
     T data;
@@ -100,7 +115,7 @@ protected:
         {
             sql_type = "INT";
         }
-        if (std::is_same<T, std::string>::value)
+        if (std::is_same<T, std::string>::value || std::is_same<T, hexfloat>::value)
         {
             sql_type = "TEXT";
         }

@@ -8,7 +8,6 @@
 
 #include <EXPTask/State/Task.hpp>
 #include <iostream>
-#include <EXPUtil/assert/EXP_ASSERT.h>
 
 EXP::Task::Task(EXP::Time::Keeper *time_keeper) : EXP::StatePrimitive(time_keeper)
 {
@@ -35,6 +34,11 @@ void EXP::Task::OnLoop(std::function<void (Task *)> on_loop)
     this->on_loop = on_loop;
 }
 
+void EXP::Task::OnError(std::function<void (Task *, const std::runtime_error &err)> on_error)
+{
+    this->on_error = on_error;
+}
+
 void EXP::Task::OnExit(std::function<void (Task *)> on_exit)
 {
     this->on_exit = on_exit;
@@ -45,31 +49,35 @@ void EXP::Task::Run()
     bool first_entry = true;
     EXP::StatePrimitive *current = next;
     is_running.store(true);
-    while (!should_exit())
-    {
-        loop();
+    try {
+        while (!should_exit())
+        {
+            loop();
 
-        if (first_entry)
-        {
-            current->entry();
-            first_entry = false;
-        }
+            if (first_entry)
+            {
+                current->entry();
+                first_entry = false;
+            }
 
-        if (current->should_exit())
-        {
-            current->exit();
-            previous = current;
-            next = current->GetNext();
-            current = next;
-            first_entry = true;
+            if (current->should_exit())
+            {
+                current->exit();
+                previous = current;
+                next = current->GetNext();
+                current = next;
+                first_entry = true;
+            }
+            else
+            {
+                current->loop();
+            }
         }
-        else
-        {
-            current->loop();
-        }
+        exit();
+        is_running.store(false);
+    } catch (const std::runtime_error &err) {
+        on_error(this, err);
     }
-    exit();
-    is_running.store(false);
 }
 
 void EXP::Task::LogTime() const
@@ -92,6 +100,11 @@ void EXP::Task::loop()
 void EXP::Task::empty()
 {
     //
+}
+
+void EXP::Task::error(const std::runtime_error &err)
+{
+    throw err;
 }
 
 EXP::State* EXP::Task::CreateState(unsigned int *id)
