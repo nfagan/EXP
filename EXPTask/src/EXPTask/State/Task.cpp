@@ -48,6 +48,7 @@ void EXP::Task::Run()
 {
     bool first_entry = true;
     EXP::StatePrimitive *current = next;
+	GetTimer()->Reset();
     is_running.store(true);
     try {
         while (!should_exit())

@@ -13,14 +13,15 @@ namespace ex2 {
     
     using namespace EXP;
     using std::make_shared;
+	using std::shared_ptr;
 
     namespace gl {
-        auto context = make_shared<GLContextManager>();
-        auto pipeline = make_shared<GLPipeline>(gl::context);
+        shared_ptr<GLContextManager> context = make_shared<GLContextManager>();
+        shared_ptr<GLPipeline> pipeline = make_shared<GLPipeline>(gl::context);
         
-        auto target = pipeline->GetTarget();
-        auto mouse = make_shared<InputXY>();
-        auto keyboard = make_shared<InputKeyboard>(gl::target);
+        shared_ptr<RenderTarget> target = pipeline->GetTarget();
+        shared_ptr<InputXY> mouse = make_shared<InputXY>();
+        shared_ptr<InputKeyboard> keyboard = make_shared<InputKeyboard>(gl::target);
         
         namespace ids {
             unsigned fixation_square = 0;
@@ -29,9 +30,9 @@ namespace ex2 {
     }
 
     namespace task {
-        auto time = make_shared<Time::Keeper>();
-        auto task = make_shared<Task>(time);
-        auto task_data = make_shared<TASK_DATA>();
+        shared_ptr<Time::Keeper> time = make_shared<Time::Keeper>();
+        shared_ptr<Task> task = make_shared<Task>(time);
+        shared_ptr<TASK_DATA> task_data = make_shared<TASK_DATA>();
         
         namespace ids {
             unsigned fixation = 0;
@@ -40,9 +41,9 @@ namespace ex2 {
     }
 
     namespace db {
-        auto conn = make_shared<sql::connection>("test1.db");
-        auto curs = conn->get_cursor();
-        auto database = make_shared<db::DATABASE>(curs);
+        shared_ptr<sql::connection> conn = make_shared<sql::connection>("test1.db");
+        shared_ptr<sql::cursor> curs = conn->get_cursor();
+        shared_ptr<db::DATABASE> database = make_shared<db::DATABASE>(curs);
     }
     
 }

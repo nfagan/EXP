@@ -18,6 +18,10 @@ using std::shared_ptr;
 using namespace EXP;
 
 namespace states {
+
+	//
+	//	fixation
+	//
     
     namespace fixation {
         
@@ -31,10 +35,15 @@ namespace states {
         auto on_entry = [] (auto state) {
             gl::pipeline->GetRenderLoop()->OnceDrawReady(entry_render_function);
         };
+
+		auto on_loop = [] (auto state) {
+			std::cout << task::task->EllapsedTime().count() << std::endl;
+		};
         
         auto setup = [] (auto state) {
             state->OnEntry(on_entry);
-            state->SetTimeIn(EXP::Time::duration_ms(1000));
+			state->OnLoop(on_loop);
+            state->SetTimeIn(EXP::Time::duration_ms(5000));
             state->ExitOnTimeExceeded();
             
             auto rsrc = gl::pipeline->GetResource();
@@ -47,6 +56,10 @@ namespace states {
             gl::ids::fixation_square = fix_square->GetUUID();
         };
     }
+
+	//
+	//	choice
+	//
     
     namespace choice {
         

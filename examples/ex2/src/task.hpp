@@ -16,24 +16,29 @@ namespace ex2 {
 namespace task_loop {
     
     using namespace EXP;
+
+	auto on_exit = [](auto task) {
+		gl::pipeline->GetRenderLoop()->CancelLoop();
+	};
     
     void setup()
     {
+		//	setup fixation
         auto state_fixation = task::task->CreateState(&task::ids::fixation);
-        states::fixation::setup(state_fixation);
+		states::fixation::setup(state_fixation);
         
-        task::task->OnExit([] (auto task) {
-            gl::pipeline->GetRenderLoop()->CancelLoop();
-        });
-        
-        task::task->SetTimeIn(EXP::Time::duration_s(10));
-        task::task->ExitOnTimeExceeded();
+		//	setup task
+		task::task->OnExit(on_exit);
+		task::task->SetTimeIn(Time::duration_s(5));
+		task::task->ExitOnTimeExceeded();
         task::task->Next(state_fixation);
     }
     
     void main()
     {
         task::task->Run();
+		std::cout << task::task->ExitReason() << std::endl;
+		task::task->LogTime();
     }
 }
 }
