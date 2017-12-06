@@ -25,7 +25,7 @@ namespace EXP {
     {
         
     public:
-        StatePrimitive(EXP::Time::Keeper *time_keeper);
+        StatePrimitive(std::shared_ptr<EXP::Time::Keeper> time_keeper);
         virtual ~StatePrimitive();
         
         template<typename T, typename... A>
@@ -66,7 +66,7 @@ namespace EXP {
         
         std::string name;
         
-        std::atomic<EXP::Time::Keeper*> time_keeper;
+        std::shared_ptr<Time::Keeper> time_keeper;
         std::atomic<EXP::Time::Timer*> timer;
         StatePrimitive *next = nullptr;
         

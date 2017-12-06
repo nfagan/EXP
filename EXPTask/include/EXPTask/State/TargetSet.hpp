@@ -33,7 +33,7 @@ namespace EXP {
             bool was_in_bounds;
             bool called_ellapsed;
             
-            timed_target(std::shared_ptr<Target> in_target, Time::Keeper *keeper, Time::duration_s duration);
+            timed_target(std::shared_ptr<Target> in_target, std::shared_ptr<Time::Keeper> keeper, Time::duration_s duration);
             timed_target() = default;
             ~timed_target() = default;
             void reset();
@@ -42,14 +42,14 @@ namespace EXP {
         TargetSet() = default;
         ~TargetSet() = default;
         
-        void initialize(State *parent, Time::Keeper *keeper);
-        void update(void);
+        void initialize(State *parent, std::shared_ptr<Time::Keeper> keeper);
+        void update();
         void update_one(timed_target &targ);
-        void reset(void);
+        void reset();
         static void empty(State*, const std::shared_ptr<Target>) {};
         
         std::atomic<State*> parent;
-        std::atomic<Time::Keeper*> keeper;
+        std::shared_ptr<Time::Keeper> keeper;
         unsigned int n_targets;
         std::unordered_map<unsigned int, timed_target> targets;
         

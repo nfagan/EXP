@@ -14,6 +14,7 @@
 #include <EXPTask/Time/Timer.hpp>
 #include <EXPTask/State/exit_conditions.hpp>
 #include <EXPTask/State/TargetSet.hpp>
+#include <memory>
 
 namespace EXP {
     
@@ -24,7 +25,7 @@ namespace EXP {
         friend class Task;
         
     public:
-        State(EXP::Time::Keeper *time_keeper);
+        State(std::shared_ptr<Time::Keeper> time_keeper);
         virtual ~State() = default;
         
         TargetSet& GetTargetSet();

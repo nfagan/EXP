@@ -10,7 +10,7 @@
 #include <iostream>
 
 EXP::TargetSet::timed_target::timed_target(std::shared_ptr<EXP::Target> in_target,
-                                           EXP::Time::Keeper *keeper, EXP::Time::duration_s duration)
+                                           std::shared_ptr<EXP::Time::Keeper> keeper, EXP::Time::duration_s duration)
 {
     target = in_target;
     timer.Initialize(keeper, duration);
@@ -24,11 +24,11 @@ void EXP::TargetSet::timed_target::reset()
     timer.Reset();
 }
 
-void EXP::TargetSet::initialize(EXP::State *parent, Time::Keeper *keeper)
+void EXP::TargetSet::initialize(EXP::State *parent, std::shared_ptr<Time::Keeper> keeper)
 {
     n_targets = 0;
     this->parent.store(parent);
-    this->keeper.store(keeper);
+    this->keeper = keeper;
 }
 
 std::shared_ptr<EXP::Target> EXP::TargetSet::Create(const std::shared_ptr<EXP::InputXY> input_source,
@@ -36,7 +36,7 @@ std::shared_ptr<EXP::Target> EXP::TargetSet::Create(const std::shared_ptr<EXP::I
 {
     std::shared_ptr<EXP::Target> target = std::make_shared<EXP::Target>(input_source);
     target->set_id(n_targets);
-    timed_target target_(target, keeper.load(), threshold);
+    timed_target target_(target, keeper, threshold);
     targets[n_targets] = target_;
     n_targets++;
     return target;

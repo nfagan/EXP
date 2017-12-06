@@ -21,7 +21,7 @@ EXP::frame_timer::frame_timer()
     max = std::numeric_limits<double>::min();
 }
 
-void EXP::frame_timer::update(const EXP::Time::Keeper *time)
+void EXP::frame_timer::update(const std::shared_ptr<EXP::Time::Keeper> &time)
 {
     current = time->Now();
     if (iterations > 0)

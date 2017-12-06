@@ -14,3 +14,4 @@ include_directories(${EXP_INCLUDE_DIRS})
 link_directories(${EXP_LIBRARY_DIRS})
 
 add_subdirectory(ex1)
+add_subdirectory(ex2)

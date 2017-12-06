@@ -50,7 +50,7 @@ namespace tags {
 }
     
 namespace globals {
-    Time::Keeper *time = new Time::Keeper();
+    auto time = std::make_shared<Time::Keeper>();
     
     auto gl_manager = std::make_shared<GLContextManager>();
     GLPipeline pipeline(globals::gl_manager);
@@ -118,7 +118,8 @@ void render_loop(RenderLoop *looper)
     static glm::vec2 rect_pos = Positions2D::CENTER;
     
     globals::pipeline.Update();
-    globals::mouse->UpdateCoordinates();
+//    globals::mouse->UpdateCoordinates();
+    globals::mouse->UpdateCoordinates(globals::pipeline.GetTarget());
     
     float step_amount = 0.005f;
     if (globals::keyboard->KeyDown(Keys::A)) rect_pos.x -= step_amount;
@@ -408,7 +409,8 @@ bool gl_init()
     
     //  input
     globals::keyboard = std::make_shared<InputKeyboard>(pipeline.GetTarget());
-    globals::mouse = std::make_shared<InputXY>(pipeline.GetTarget());
+//    globals::mouse = std::make_shared<InputXY>(pipeline.GetTarget());
+    globals::mouse = std::make_shared<InputXY>();
     
     // configure each stimulus
     rectangle->SetShader(shader);

@@ -64,7 +64,7 @@ void EXP::GLPipeline::ensure_initialized(void) const
 {
     if (!is_initialized)
     {
-        throw std::runtime_error("A call to begin() must precede item access.");
+//        throw std::runtime_error("A call to begin() must precede item access.");
     }
 }
 

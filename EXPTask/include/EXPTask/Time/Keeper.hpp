@@ -23,17 +23,17 @@ namespace EXP {
             Keeper();
             ~Keeper();
             
-            void Start(void);
-            bool DidStart(void);
-            void Stop(void);
-            double Now(void) const;
+            void Start();
+            bool DidStart();
+            void Stop();
+            double Now() const;
         protected:
             std::thread *time_thread;
             EXP::Time::time_point start;
             std::atomic<double> now;
             std::atomic<bool> is_counting;
             std::atomic<bool> keep_counting;
-            void keep_time(void);
+            void keep_time();
         };
     }
 }

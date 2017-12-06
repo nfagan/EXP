@@ -13,13 +13,14 @@
 #include <EXPTask/State/State.hpp>
 #include <unordered_map>
 #include <atomic>
+#include <memory>
 
 namespace EXP {
     class Task : public StatePrimitive
     {
     
     public:
-        Task(EXP::Time::Keeper *keeper);
+        Task(std::shared_ptr<EXP::Time::Keeper> keeper);
         virtual ~Task();
         
         void Run(void);

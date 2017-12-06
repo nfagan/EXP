@@ -9,7 +9,7 @@
 #include <EXPTask/State/Task.hpp>
 #include <iostream>
 
-EXP::Task::Task(EXP::Time::Keeper *time_keeper) : EXP::StatePrimitive(time_keeper)
+EXP::Task::Task(std::shared_ptr<EXP::Time::Keeper> time_keeper) : EXP::StatePrimitive(time_keeper)
 {
     n_states = 0;
     is_running.store(false);
@@ -109,7 +109,7 @@ void EXP::Task::error(const std::runtime_error &err)
 
 EXP::State* EXP::Task::CreateState(unsigned int *id)
 {
-    EXP::State *state = new EXP::State(time_keeper.load());
+    EXP::State *state = new EXP::State(time_keeper);
     state->set_id(n_states);
     state->set_parent(this);
     states[n_states] = state;

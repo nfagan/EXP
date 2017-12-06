@@ -11,21 +11,21 @@
 #include <math.h>
 #include <assert.h>
 
-EXP::Time::Timer::Timer(EXP::Time::Keeper *time)
+EXP::Time::Timer::Timer(std::shared_ptr<EXP::Time::Keeper> time)
 {
     this->time = time;
     this->duration = DURATION_INFINITE;
     init_time();
 }
 
-EXP::Time::Timer::Timer(EXP::Time::Keeper *time, EXP::Time::duration_ms duration)
+EXP::Time::Timer::Timer(std::shared_ptr<EXP::Time::Keeper> time, EXP::Time::duration_ms duration)
 {
     this->time = time;
     this->duration = duration;
     init_time();
 }
 
-void EXP::Time::Timer::Initialize(EXP::Time::Keeper *time, EXP::Time::duration_ms duration)
+void EXP::Time::Timer::Initialize(std::shared_ptr<EXP::Time::Keeper> time, EXP::Time::duration_ms duration)
 {
     this->time = time;
     this->duration = duration;

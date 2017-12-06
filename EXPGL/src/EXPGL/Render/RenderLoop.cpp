@@ -46,6 +46,13 @@ void EXP::RenderLoop::Queue(const std::vector<Model*> &models)
     queue_lock.unlock();
 }
 
+void EXP::RenderLoop::Queue(EXP::Model *model)
+{
+    std::vector<EXP::Model*> single;
+    single.push_back(model);
+    Queue(single);
+}
+
 void EXP::RenderLoop::ClearQueue()
 {
     queue_lock.lock();

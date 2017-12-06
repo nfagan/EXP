@@ -9,7 +9,7 @@
 #include <EXPTask/State/State.hpp>
 #include <EXPTask/State/Task.hpp>
 
-EXP::State::State(EXP::Time::Keeper *time_keeper) : EXP::StatePrimitive(time_keeper)
+EXP::State::State(std::shared_ptr<EXP::Time::Keeper> time_keeper) : EXP::StatePrimitive(time_keeper)
 {
     target_set.initialize(this, time_keeper);
 }

@@ -16,8 +16,11 @@ EXP::Time::Keeper::Keeper()
 }
 
 EXP::Time::Keeper::~Keeper() {
-    time_thread->detach();
-    delete time_thread;
+    if (DidStart())
+    {
+        time_thread->detach();
+        delete time_thread;
+    }
 }
 
 double EXP::Time::Keeper::Now() const

@@ -11,6 +11,7 @@
 
 #include <stdio.h>
 #include <EXPTask/Time/Keeper.hpp>
+#include <memory>
 
 namespace EXP {
     namespace Time {
@@ -18,20 +19,20 @@ namespace EXP {
         {
         public:
             Timer() = default;
-            Timer(EXP::Time::Keeper *time);
-            Timer(EXP::Time::Keeper *time, EXP::Time::duration_ms duration);
+            Timer(std::shared_ptr<EXP::Time::Keeper> time);
+            Timer(std::shared_ptr<EXP::Time::Keeper> time, EXP::Time::duration_ms duration);
             ~Timer() = default;
             
-            void Initialize(EXP::Time::Keeper *time, EXP::Time::duration_ms duration);
+            void Initialize(std::shared_ptr<EXP::Time::Keeper> time, EXP::Time::duration_ms duration);
             void SetDuration(EXP::Time::duration_ms duration);
-            void Reset(void);
-            bool Ellapsed(void) const;
-            double EllapsedTime(void) const;
+            void Reset();
+            bool Ellapsed() const;
+            double EllapsedTime() const;
         private:
             void init_time();
             bool did_initialize = false;
             double start;
-            EXP::Time::Keeper *time;
+            std::shared_ptr<EXP::Time::Keeper> time;
             EXP::Time::duration_ms duration;
         };
     }

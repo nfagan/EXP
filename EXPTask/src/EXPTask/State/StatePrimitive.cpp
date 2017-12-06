@@ -10,9 +10,9 @@
 #include <iostream>
 #include <limits>
 
-EXP::StatePrimitive::StatePrimitive(EXP::Time::Keeper *time_keeper)
+EXP::StatePrimitive::StatePrimitive(std::shared_ptr<EXP::Time::Keeper> time_keeper)
 {
-    this->time_keeper.store(time_keeper);
+    this->time_keeper = time_keeper;
     this->timer.store(new EXP::Time::Timer(time_keeper, Time::DURATION_INFINITE));
 }
 

@@ -10,6 +10,7 @@
 #define frame_timer_h
 
 #include <EXPTask/Time/Keeper.hpp>
+#include <memory>
 
 namespace EXP {
     struct frame_timer
@@ -24,7 +25,7 @@ namespace EXP {
         
         frame_timer();
         ~frame_timer() = default;
-        void update(const EXP::Time::Keeper *time);
+        void update(const std::shared_ptr<EXP::Time::Keeper> &time);
     };
 }
 

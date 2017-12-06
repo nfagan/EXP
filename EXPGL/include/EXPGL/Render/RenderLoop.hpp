@@ -30,6 +30,7 @@ namespace EXP {
         void Loop();
         void CancelLoop();
         void Queue(const std::vector<Model*> &models);
+        void Queue(Model* model);
         void ClearQueue();
         void OnLoop(std::function<void(EXP::RenderLoop*)> on_loop);
         void OnceDrawReady(std::function<void(EXP::RenderLoop*)> once_ready);

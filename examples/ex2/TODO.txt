@@ -1,0 +1,4 @@
+* Add task->OnError()
+* Cleanup class field
+* Restrict rows to 1 vector
+* Investigate thread safety of committing, etc.
