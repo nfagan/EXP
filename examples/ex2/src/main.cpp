@@ -1,4 +1,4 @@
-﻿//
+//
 //  main.cpp
 //  EXP
 //
@@ -6,14 +6,7 @@
 //  Copyright © 2017 Nick Fagan. All rights reserved.
 //
 
-//#include "ex2.hpp"
-//#include "globals.cpp"
 #include <stdlib.h>
-
-//int main(int argc, const char * argv[])
-//{
-//    return ex2::start();
-//}
 
 #include <iostream>
 #include <memory>
@@ -31,7 +24,7 @@ using namespace ex2;
 
 int main(int argc, const char * argv[])
 {
-	//  open gl init
+    //  opengl initialization; opens a 400x400 window
 	gl::pipeline->Begin(0, 400, 400);
 
 	if (!gl::pipeline->IsInitialized())

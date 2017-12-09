@@ -25,7 +25,10 @@ namespace states {
     
     namespace fixation {
         
-        auto entry_render_function = [] (auto looper) {
+        unsigned fix_targ_id;
+        auto initial_fix_time = Time::duration_ms(1000);
+        
+        auto render_function = [] (auto looper) {
             looper->ClearQueue();
             auto rsrc = gl::pipeline->GetResource();
             auto rect = rsrc->Get<Model>(gl::ids::fixation_square);
@@ -33,27 +36,65 @@ namespace states {
         };
         
         auto on_entry = [] (auto state) {
-            gl::pipeline->GetRenderLoop()->OnceDrawReady(entry_render_function);
+            state->LogTime();
+            gl::pipeline->GetRenderLoop()->OnceDrawReady(render_function);
+            //  by default, go to mistake state.
+            state->Next(task::ids::mistake);
         };
 
-		auto on_loop = [] (auto state) {
-			std::cout << task::task->EllapsedTime().count() << std::endl;
-		};
+        auto on_loop = [] (auto state) {
+            //
+        };
+        
+        auto on_exit = [] (auto state) {
+            //
+        };
+        
+        auto on_target_entry = [] (auto state, auto target) {
+            if (state->EllapsedTime() > initial_fix_time)
+            {
+                state->Next(task::ids::mistake);
+                state->ExitNow();
+                return;
+            }
+            state->Next(task::ids::choice);
+        };
+        
+        auto on_target_exit = [] (auto state, auto target) {
+            state->Next(task::ids::mistake);
+            state->ExitNow();
+        };
         
         auto setup = [] (auto state) {
             state->OnEntry(on_entry);
-			state->OnLoop(on_loop);
-            state->SetTimeIn(EXP::Time::duration_ms(5000));
+            state->OnLoop(on_loop);
+            state->OnExit(on_exit);
+            state->SetTimeIn(Time::duration_ms(2000));
             state->ExitOnTimeExceeded();
             
+            float fix_size = 10.0f;
             auto rsrc = gl::pipeline->GetResource();
             auto fix_square = rsrc->CreateRectangle();
             auto shader = rsrc->CreateGenericShader();
+            
             fix_square->SetShader(shader);
             fix_square->SetUnits(util::units::MIXED);
-            fix_square->SetScale(10.0f);
+            fix_square->SetScale(fix_size);
             fix_square->SetPosition(Positions2D::CENTER);
+            
             gl::ids::fixation_square = fix_square->GetUUID();
+            gl::ids::shader = shader->GetUUID();
+            
+            auto &target_set = state->GetTargetSet();
+            auto fix_targ = target_set.Create(gl::mouse, Time::duration_ms(200));
+            fix_targ_id = fix_targ->GetId();
+            
+            auto rect = gl::pipeline->GetTarget()->GetFullRect();
+            fix_targ->SetPosition(fix_square->get_units_position(rect));
+            
+            fix_targ->SetSize(fix_size);
+            target_set.OnTargetEntry(on_target_entry);
+            target_set.OnTargetExit(on_target_exit);
         };
     }
 
@@ -63,21 +104,78 @@ namespace states {
     
     namespace choice {
         
-        auto entry_render_function = [] (auto looper) {
+        auto render_function = [] (auto looper) {
             looper->ClearQueue();
             auto rsrc = gl::pipeline->GetResource();
-            auto rect = rsrc->Get<Model>(gl::ids::rectangle);
-            looper->Queue(rect);
+            auto stim = rsrc->Get<Model>(gl::ids::triangle);
+            looper->Queue(stim);
         };
         
         auto on_entry = [] (auto state) {
-            gl::pipeline->GetRenderLoop()->OnceDrawReady(entry_render_function);
+            gl::pipeline->GetRenderLoop()->OnceDrawReady(render_function);
+        };
+        
+        auto on_exit = [] (auto state) {
+            state->Next(task::ids::fixation);
         };
         
         auto setup = [] (auto state) {
-            state->OnEntry(states::choice::on_entry);
+            state->OnEntry(on_entry);
+            state->OnExit(on_exit);
             state->SetTimeIn(EXP::Time::duration_ms(1000));
             state->ExitOnTimeExceeded();
+            
+            auto rsrc = gl::pipeline->GetResource();
+            auto triangle = rsrc->CreateTriangle();
+            auto fix_square = rsrc->Get<Model>(gl::ids::fixation_square);
+            auto mat = triangle->GetMaterial();
+            triangle->MakeLike(fix_square);
+            mat->SetAlbedo(Colors::GREEN);
+            triangle->SetMaterial(mat);
+            
+            gl::ids::triangle = triangle->GetUUID();
+        };
+    }
+    
+    //
+    //  mistake
+    //
+    
+    namespace mistake {
+        
+        auto render_function = [] (auto looper) {
+            looper->ClearQueue();
+            auto rsrc = gl::pipeline->GetResource();
+            auto stim = rsrc->Get<Model>(gl::ids::error_square);
+            looper->Queue(stim);
+        };
+        
+        auto on_entry = [] (auto state) {
+            gl::pipeline->GetRenderLoop()->OnceDrawReady(render_function);
+        };
+        
+        auto on_exit = [] (auto state) {
+            state->Next(task::ids::fixation);
+        };
+        
+        auto setup = [] (auto state) {
+            state->OnEntry(on_entry);
+            state->OnExit(on_exit);
+            state->SetTimeIn(Time::duration_ms(1000));
+            state->ExitOnTimeExceeded();
+            
+            auto rsrc = gl::pipeline->GetResource();
+            auto error_square = rsrc->CreateRectangle();
+            auto mat = error_square->GetMaterial();
+            auto tex = rsrc->GetTexture(file::get_full_path("../") + "/res/textures/tex1.png");
+            auto fix_square = rsrc->Get<Model>(gl::ids::fixation_square);
+            
+            mat->SetAlbedo(tex);
+            error_square->MakeLike(fix_square);
+            error_square->SetMaterial(mat);
+            error_square->SetScale(glm::vec2(50.0f));
+            
+            gl::ids::error_square = error_square->GetUUID();
         };
     }
 }

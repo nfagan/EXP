@@ -58,6 +58,11 @@ EXP::Model* EXP::GLResourceManager::CreateTriangle()
     return make_model(mesh);
 }
 
+EXP::Texture* EXP::GLResourceManager::GetTexture(std::string filename)
+{
+    return texture_loader->GetTexture(filename.c_str());
+}
+
 //void EXP::GLResourceManager::SetName(GLResourcePrimitive *resource, const std::string &name)
 //{
 //    for (unsigned i = 0; i < items.size(); ++i)

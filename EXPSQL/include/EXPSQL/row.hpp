@@ -110,6 +110,12 @@ private:
     std::tuple<T...> fields;
 };
 
+//
+// impl
+//
+    
+//#include <EXPSQL/row_impl.hpp>
+    
 }
 }
 

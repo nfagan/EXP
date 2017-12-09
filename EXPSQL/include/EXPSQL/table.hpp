@@ -21,69 +21,31 @@ template<const char *name_, typename ...T>
 class table
 {
 public:
-    table(std::shared_ptr<cursor> curs)
-    {
-        this->curs = curs;
-        this->name = std::string(name_);
-        row_ = std::make_shared<row<T...>>();
-        status = true;
-        require();
-        get_size();
-    }
+    table(std::shared_ptr<cursor> curs);
     
     ~table() = default;
     
     template<typename N, typename X>
-    bool commit(X data)
-    {
-        return row_->template commit<N>(data);
-    }
-    
-    bool insert()
-    {
-        if (!curs->insert(row_, size, name))
-            return false;
-        row_->reset();
-        size++;
-        return true;
-    }
-    
-    bool create()
-    {
-        return curs->create(row_, name);
-    }
-    
-    bool drop()
-    {
-        if (curs->drop(name))
-        {
-            size = 0;
-            return true;
-        }
-        return false;
-    }
-    
+    bool commit(X data);
+    bool insert();
+    bool create();
+    bool drop();
     std::atomic<bool> status;
-    
 private:
     std::shared_ptr<row<T...>> row_;
     int size;
     std::string name;
-    static constexpr const char *name__ = name_;
     std::shared_ptr<cursor> curs;
     
-    void get_size()
-    {
-        if (!status) return;
-        status = curs->size(name, &size);
-    }
-    
-    void require()
-    {
-        if (!status) return;
-        status = curs->require(row_, name);
-    }
+    void get_size();
+    void require();
 };
+    
+//
+//  impl
+//
+    
+#include <EXPSQL/table_impl.hpp>
     
 }
 }

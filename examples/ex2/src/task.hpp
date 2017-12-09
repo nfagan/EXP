@@ -17,7 +17,7 @@ namespace task_loop {
     
     using namespace EXP;
 
-	auto on_exit = [](auto task) {
+	auto on_exit = [] (auto task) {
 		gl::pipeline->GetRenderLoop()->CancelLoop();
 	};
     
@@ -27,9 +27,17 @@ namespace task_loop {
         auto state_fixation = task::task->CreateState(&task::ids::fixation);
 		states::fixation::setup(state_fixation);
         
+        //  setup choice
+        auto state_choice = task::task->CreateState(&task::ids::choice);
+        states::choice::setup(state_choice);
+        
+        //  setup error
+        auto state_mistake = task::task->CreateState(&task::ids::mistake);
+        states::mistake::setup(state_mistake);
+        
 		//	setup task
 		task::task->OnExit(on_exit);
-		task::task->SetTimeIn(Time::duration_s(5));
+		task::task->SetTimeIn(Time::duration_s(10));
 		task::task->ExitOnTimeExceeded();
         task::task->Next(state_fixation);
     }
@@ -37,7 +45,6 @@ namespace task_loop {
     void main()
     {
         task::task->Run();
-		std::cout << task::task->ExitReason() << std::endl;
 		task::task->LogTime();
     }
 }

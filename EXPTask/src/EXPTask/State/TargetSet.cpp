@@ -37,6 +37,7 @@ std::shared_ptr<EXP::Target> EXP::TargetSet::Create(const std::shared_ptr<EXP::I
     std::shared_ptr<EXP::Target> target = std::make_shared<EXP::Target>(input_source);
     target->set_id(n_targets);
     timed_target target_(target, keeper, threshold);
+    target_.reset();
     targets[n_targets] = target_;
     n_targets++;
     return target;

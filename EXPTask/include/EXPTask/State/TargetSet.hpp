@@ -58,7 +58,7 @@ namespace EXP {
         std::function<void(State*, std::shared_ptr<Target>)> on_ellapsed = &TargetSet::empty;
         
     public:
-        std::shared_ptr<Target> Create(std::shared_ptr<InputXY> inupt_source, Time::duration_s threshold);
+        std::shared_ptr<Target> Create(std::shared_ptr<InputXY> input_source, Time::duration_s threshold);
         void OnTargetExit(std::function<void(State*, std::shared_ptr<Target>)> on_target_exit);
         void OnTargetEntry(std::function<void(State*, std::shared_ptr<Target>)> on_target_entry);
         void OnEllapsed(std::function<void(State*, std::shared_ptr<Target>)> on_ellapsed);

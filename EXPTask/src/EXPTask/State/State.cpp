@@ -34,14 +34,9 @@ void EXP::State::Next(EXP::State *state)
     next = state;
 }
 
-void EXP::State::run()
+void EXP::State::Next(unsigned int id)
 {
-    entry();
-    while (!should_exit() && !parent->should_exit())
-    {
-        this->loop();
-    }
-    exit();
+    next = GetStateById(id);
 }
 
 EXP::TargetSet& EXP::State::GetTargetSet()

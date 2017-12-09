@@ -1,4 +1,4 @@
-* Add task->OnError()
-* Cleanup class field
+* Fix LinkModel() function
+* Add screen rect ref to model
 * Restrict rows to 1 vector
 * Investigate thread safety of committing, etc.

@@ -20,14 +20,15 @@ namespace ex2 {
     namespace gl {
         extern shared_ptr<GLContextManager> context;
         extern shared_ptr<GLPipeline> pipeline;
-        extern shared_ptr<RenderTarget> target;
         
         extern shared_ptr<InputXY> mouse;
         extern shared_ptr<InputKeyboard> keyboard;
         
         namespace ids {
+            extern unsigned shader;
             extern unsigned fixation_square;
-            extern unsigned rectangle;
+            extern unsigned triangle;
+            extern unsigned error_square;
         }
     }
     
@@ -39,6 +40,7 @@ namespace ex2 {
         namespace ids {
             extern unsigned fixation;
             extern unsigned choice;
+            extern unsigned mistake;
         }
     }
     

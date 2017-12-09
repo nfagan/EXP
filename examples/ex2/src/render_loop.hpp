@@ -16,11 +16,11 @@ namespace render_loop {
     
     using namespace EXP;
     
-    void main(RenderLoop *loop)
-    {
+    auto main = [] (auto loop) {
         gl::pipeline->Update();
         gl::mouse->UpdateCoordinates(gl::pipeline->GetTarget());
-    }
+    };
+    
 }
 }
 

@@ -33,6 +33,7 @@ namespace EXP {
         State* GetStateById(unsigned id) const;
         
         void Next(State* state);
+        void Next(unsigned id);
         
         void OnEntry(std::function<void(State*)> on_entry);
         void OnLoop(std::function<void(State*)> on_loop);
@@ -53,7 +54,6 @@ namespace EXP {
         virtual void set_id(unsigned id);
         virtual void set_parent(EXP::Task *parent);
         
-        virtual void run();
         virtual void empty();
         virtual void entry();
         virtual void loop();

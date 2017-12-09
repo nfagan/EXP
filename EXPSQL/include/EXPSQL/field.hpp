@@ -59,80 +59,36 @@ template<const char *name_, typename T>
 class field
 {
 public:
-    field() : did_commit(false), name(name_) {};
-    
+    field();
     ~field() = default;
     
-    bool commit(T data)
-    {
-        return set_data(data);
-    }
-    const T& get_data() const
-    {
-        return data;
-    }
-    const std::string& get_sql_type() const
-    {
-        return sql_type;
-    }
-    const std::string get_name() const
-    {
-        return name;
-    }
-    void create_table(std::string &query) const
-    {
-        query += (name + " " + get_sql_type() + " NOT NULL,");
-    }
-    void insert_value(std::string &query) const
-    {
-        query += to_string();
-        query += ",";
-    }
-    void insert_name(std::string &query) const
-    {
-        query += name;
-        query += ",";
-    }
-    void reset()
-    {
-        did_commit = false;
-    }
+    bool commit(T data);
+    const T& get_data() const;
+    const std::string& get_sql_type() const;
+    const std::string get_name() const;
+    void create_table(std::string &query) const;
+    void insert_value(std::string &query) const;
+    void insert_name(std::string &query) const;
     
+    void reset();
     bool did_commit;
-protected:
+private:
     std::string name;
     std::string sql_type;
     T data;
     
-    bool set_data(T data)
-    {
-        if (did_commit)
-        {
-            std::string msg = "Already commited data for field named `" + name + "`.";
-            return false;
-        }
-        if (std::is_same<T, int>::value)
-        {
-            sql_type = "INT";
-        }
-        if (std::is_same<T, std::string>::value || std::is_same<T, hexfloat>::value)
-        {
-            sql_type = "TEXT";
-        }
-        if (std::is_same<T, float>::value || std::is_same<T, double>::value)
-        {
-            sql_type = "REAL";
-        }
-        this->data = data;
-        did_commit = true;
-        return true;
-    }
-    
-    const std::string to_string() const
-    {
-        return to_string_impl(data);
-    }
+    bool set_data(T data);
+    const std::string to_string() const;
 };
+    
+//
+//  impl
+//
+    
+
+#include <EXPSQL/field_impl.hpp>
+
+
 }
 }
 

@@ -19,13 +19,14 @@ namespace ex2 {
         shared_ptr<GLContextManager> context = make_shared<GLContextManager>();
         shared_ptr<GLPipeline> pipeline = make_shared<GLPipeline>(gl::context);
         
-        shared_ptr<RenderTarget> target = pipeline->GetTarget();
         shared_ptr<InputXY> mouse = make_shared<InputXY>();
-        shared_ptr<InputKeyboard> keyboard = make_shared<InputKeyboard>(gl::target);
+        shared_ptr<InputKeyboard> keyboard = make_shared<InputKeyboard>(pipeline->GetTarget());
         
         namespace ids {
+            unsigned shader = 0;
             unsigned fixation_square = 0;
-            unsigned rectangle = 0;
+            unsigned triangle = 0;
+            unsigned error_square = 0;
         }
     }
 
@@ -37,6 +38,7 @@ namespace ex2 {
         namespace ids {
             unsigned fixation = 0;
             unsigned choice = 0;
+            unsigned mistake = 0;
         }
     }
 

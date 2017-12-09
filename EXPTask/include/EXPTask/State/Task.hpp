@@ -23,13 +23,13 @@ namespace EXP {
         Task(std::shared_ptr<EXP::Time::Keeper> keeper);
         virtual ~Task();
         
-        void Run(void);
+        void Run();
         void OnLoop(std::function<void(Task*)> on_loop);
         void OnExit(std::function<void(Task*)> on_exit);
         void OnError(std::function<void(Task*, const std::runtime_error&)> on_error);
         
         bool IsRunning();
-        void LogTime(void) const;
+        void LogTime() const;
         
         EXP::State* CreateState(unsigned *id);
         EXP::State* GetStateById(unsigned id);

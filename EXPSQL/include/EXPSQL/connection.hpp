@@ -17,7 +17,6 @@
 struct sqlite3;
 
 namespace EXP {
-
 namespace sql {
 
 class cursor;
