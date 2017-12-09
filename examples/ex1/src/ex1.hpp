@@ -71,8 +71,8 @@ namespace db {
     
     //  build the trial data table
     EXPSQL_MAKE_FIELD(choice_type, string);
-//     EXPSQL_MAKE_FIELD(choice_time, sql::hexfloat);   //  store exact representation
-    EXPSQL_MAKE_FIELD(choice_time, double);
+//     EXPSQL_MAKE_FIELD(choice_time, sql::hexfloat_t);   //  store exact representation
+    EXPSQL_MAKE_FIELD(choice_time, sql::hexfloat_t);
     EXPSQL_MAKE_FIELD(trial_number, int);
     EXPSQL_MAKE_TABLE(DATA, trial_number, choice_type, choice_time);
     
@@ -117,9 +117,11 @@ void render_loop(RenderLoop *looper)
 {
     static glm::vec2 rect_pos = Positions2D::CENTER;
     
+    auto render_target = globals::pipeline.GetTarget();
+    
     globals::pipeline.Update();
-//    globals::mouse->UpdateCoordinates();
-    globals::mouse->UpdateCoordinates(globals::pipeline.GetTarget());
+    globals::mouse->Update(render_target);
+    globals::keyboard->Update(render_target);
     
     float step_amount = 0.005f;
     if (globals::keyboard->KeyDown(Keys::A)) rect_pos.x -= step_amount;
@@ -408,8 +410,7 @@ bool gl_init()
     auto circle = rsrc->CreateSphere();
     
     //  input
-    globals::keyboard = std::make_shared<InputKeyboard>(pipeline.GetTarget());
-//    globals::mouse = std::make_shared<InputXY>(pipeline.GetTarget());
+    globals::keyboard = std::make_shared<InputKeyboard>();
     globals::mouse = std::make_shared<InputXY>();
     
     // configure each stimulus

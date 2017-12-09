@@ -38,9 +38,9 @@ class row
 {
 public:
     row() {};
-    row(T... inputs) : fields(inputs...)
+    row(T... inputs)
     {
-        //
+        fields = std::make_tuple<inputs...>();
     }
     
     ~row() = default;

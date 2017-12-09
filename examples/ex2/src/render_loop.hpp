@@ -8,17 +8,18 @@
 #ifndef render_loop_h
 #define render_loop_h
 
-#include "EXP.hpp"
-#include "globals.hpp"
+#include "ex2.hpp"
 
-namespace ex2 {
+namespace ex3 {
 namespace render_loop {
     
     using namespace EXP;
     
     auto main = [] (auto loop) {
-        gl::pipeline->Update();
-        gl::mouse->UpdateCoordinates(gl::pipeline->GetTarget());
+        auto &gl = globals::gl::get();
+        gl.pipeline->Update();
+        gl.mouse->Update(gl.pipeline->GetTarget());
+        gl.keyboard->Update(gl.pipeline->GetTarget());
     };
     
 }

@@ -8,7 +8,7 @@
 #ifndef ex2_task_h
 #define ex2_task_h
 
-#include "ex2.hpp"
+#include "ex3.hpp"
 
 namespace ex3 {
     namespace globals {
@@ -17,10 +17,8 @@ namespace ex3 {
         using std::shared_ptr;
         using std::make_shared;
         
-        struct task : public singleton<task>
+        struct task
         {
-            friend struct singleton<task>;
-        public:
             shared_ptr<Time::Keeper> time;
             shared_ptr<Task> runner;
             shared_ptr<TASK_DATA> task_data;
@@ -30,7 +28,7 @@ namespace ex3 {
                 unsigned choice = 0;
                 unsigned mistake = 0;
             } ids;
-        private:
+            
             task()
             {
                 time = make_shared<Time::Keeper>();

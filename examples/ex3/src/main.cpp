@@ -8,37 +8,40 @@
 
 #include <stdlib.h>
 
-#include "ex2.hpp"
+#include "ex3.hpp"
 
 using namespace EXP;
 using namespace ex3;
 
 int main(int argc, const char * argv[])
 {
-    auto &gl = globals::gl::get();
-    auto &task = globals::task::get();
+    auto gl = make_shared<globals::gl>();
     
     //  opengl initialization; opens a 400x400 window
-	gl.pipeline->Begin(0, 400, 400);
+	gl->pipeline->Begin(0, 400, 400);
 
-	if (!gl.pipeline->IsInitialized())
+	if (!gl->pipeline->IsInitialized())
 	{
 		std::cout << "Failed to initialize the render context." << std::endl;
 		return EXIT_FAILURE;
 	}
+    
+    auto task = make_shared<globals::task>();
+    auto task_looper = task_loop(task, gl);
+    auto render_looper = render_loop(gl);
 
 	//  Start the time thread
-	task.time->Start();
+	task->time->Start();
 
 	//  Start the task thread, and wait until setup is finished.
-	task_loop::setup();
-	std::thread t1(task_loop::main);
+	task_looper.setup();
+    std::thread t1([&task_looper] {
+        task_looper.main();
+    });
 
 	//  Start the render loop. The loop proceeds until it
 	//  is canceled by the task thread (e.g., by pressing the esc key)
-	auto looper = gl.pipeline->GetRenderLoop();
-	looper->OnLoop(render_loop::main);
-	looper->Loop();
+    render_looper.loop();
 
 	//  Wait for the task thread to finish
 	t1.join();

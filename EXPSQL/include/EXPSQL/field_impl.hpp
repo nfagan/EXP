@@ -8,11 +8,33 @@
 #ifndef field_impl_h
 #define field_impl_h
 
+//
+//  for insertion query conversion
+//
+
+namespace {
+    template<typename T> std::string to_string_impl(T data)
+    {
+        return std::to_string(data);
+    }
+    template<> std::string to_string_impl<EXP::sql::hexfloat_t>(EXP::sql::hexfloat_t data)
+    {
+        std::stringstream ss;
+        ss << std::hexfloat << data.value;
+        return connection::require_quoted_text("%Q", ss.str());
+    }
+    template<> std::string to_string_impl<std::string>(std::string data)
+    {
+        return connection::require_quoted_text("%Q", data);
+    }    
+}
+
 template<const char *name_, typename T>
 EXP::sql::field<name_, T>::field()
 {
     name = name_;
     did_commit = false;
+    sql_type = sql_field_type<T>::value;
 }
 
 template<const char *name_, typename T>
@@ -73,18 +95,6 @@ bool EXP::sql::field<name_, T>::set_data(T data)
         std::string msg = "Already commited data for field named `" + name + "`.";
         return false;
     }
-    if (std::is_same<T, int>::value)
-    {
-        sql_type = "INT";
-    }
-    if (std::is_same<T, std::string>::value || std::is_same<T, hexfloat>::value)
-    {
-        sql_type = "TEXT";
-    }
-    if (std::is_same<T, float>::value || std::is_same<T, double>::value)
-    {
-        sql_type = "REAL";
-    }
     this->data = data;
     did_commit = true;
     return true;
@@ -97,3 +107,19 @@ const std::string EXP::sql::field<name_, T>::to_string() const
 }
 
 #endif /* field_impl_h */
+
+//    return data.to_string();
+//    sql_type = data.get_sql_type();
+//    sql_type = sql_field_type<T>::value;
+//    if (std::is_same<T, int>::value)
+//    {
+//        sql_type = "INT";
+//    }
+//    if (std::is_same<T, std::string>::value || std::is_same<T, hexfloat_t>::value)
+//    {
+//        sql_type = "TEXT";
+//    }
+//    if (std::is_same<T, float>::value || std::is_same<T, double>::value)
+//    {
+//        sql_type = "REAL";
+//    }

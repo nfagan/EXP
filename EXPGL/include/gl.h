@@ -6,8 +6,8 @@
 //  Copyright © 2017 Nick Fagan. All rights reserved.
 //
 
-#ifndef gl_h
-#define gl_h
+#ifndef exp_gl_h
+#define exp_gl_h
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>

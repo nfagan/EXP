@@ -16,44 +16,12 @@
 #include <iomanip>
 #include <limits>
 #include <EXPSQL/connection.hpp>
+#include <EXPSQL/data_types.hpp>
 
 namespace EXP {
 namespace sql {
 
 class cursor;
-    
-struct hexfloat
-{
-    double value = 0.0;
-    hexfloat() = default;
-    hexfloat(double value) : value(value) {};
-};
-    
-namespace {
-    template<typename T> std::string to_string_impl(T data);
-    template<> std::string to_string_impl<hexfloat>(hexfloat data)
-    {
-        std::stringstream ss;
-        ss << std::hexfloat << data.value;
-        return connection::require_quoted_text("%Q", ss.str());
-    }
-    template<> std::string to_string_impl<double>(double data)
-    {
-        return std::to_string(data);
-    }
-    template<> std::string to_string_impl<float>(float data)
-    {
-        return std::to_string(data);
-    }
-    template<> std::string to_string_impl<int>(int data)
-    {
-        return std::to_string(data);
-    }
-    template<> std::string to_string_impl<std::string>(std::string data)
-    {
-        return connection::require_quoted_text("%Q", data);
-    }
-}
 
 template<const char *name_, typename T>
 class field
@@ -84,7 +52,6 @@ private:
 //
 //  impl
 //
-    
 
 #include <EXPSQL/field_impl.hpp>
 

@@ -29,7 +29,7 @@ glm::vec2 EXP::InputXY::GetCoordinates() const
 }
 
 #ifdef EXPGL_TARGET_INPUT
-void EXP::InputXY::UpdateCoordinates()
+void EXP::InputXY::Update()
 {
     double x_, y_;
     glfwGetCursorPos(target->GetPrimaryWindow()->GetWindow(), &x_, &y_);
@@ -37,7 +37,7 @@ void EXP::InputXY::UpdateCoordinates()
     y.store((float)y_);
 }
 #else
-void EXP::InputXY::UpdateCoordinates(const std::shared_ptr<EXP::RenderTarget> target)
+void EXP::InputXY::Update(const std::shared_ptr<EXP::RenderTarget> target)
 {
     double x_, y_;
     glfwGetCursorPos(target->GetPrimaryWindow()->GetWindow(), &x_, &y_);

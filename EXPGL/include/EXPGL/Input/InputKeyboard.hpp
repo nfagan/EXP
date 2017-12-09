@@ -11,19 +11,28 @@
 
 #include <EXPGL/Render/RenderTarget.hpp>
 #include <memory>
+#include <vector>
+#include <unordered_map>
+#include <atomic>
+#include <EXPUtil/thread/spinlock.hpp>
 
 namespace EXP {
     
     class InputKeyboard
     {
     public:
-        InputKeyboard(std::shared_ptr<EXP::RenderTarget> target);
+        InputKeyboard() = default;
         ~InputKeyboard() = default;
         
-        void Update();
-        bool KeyDown(int id) const;
+        void Register(int key);
+        void Update(std::shared_ptr<EXP::RenderTarget> target);
+        bool KeyDown(int id);
     private:
-        std::shared_ptr<EXP::RenderTarget> target;
+        spinlock key_lock;
+        std::vector<int> keys;
+        std::unordered_map<int, std::atomic<bool>> press_status;
+        
+        bool contains(int key) const;
     };
 }
 

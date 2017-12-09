@@ -29,9 +29,9 @@ namespace EXP {
         
         virtual glm::vec2 GetCoordinates() const;
 #ifdef EXPGL_TARGET_INPUT
-        virtual void UpdateCoordinates();
+        virtual void Update();
 #else
-        virtual void UpdateCoordinates(const std::shared_ptr<EXP::RenderTarget> target);
+        virtual void Update(const std::shared_ptr<EXP::RenderTarget> target);
 #endif
     protected:
 #ifdef EXPGL_TARGET_INPUT
