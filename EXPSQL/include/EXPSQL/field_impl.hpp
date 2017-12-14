@@ -107,19 +107,3 @@ const std::string EXP::sql::field<name_, T>::to_string() const
 }
 
 #endif /* field_impl_h */
-
-//    return data.to_string();
-//    sql_type = data.get_sql_type();
-//    sql_type = sql_field_type<T>::value;
-//    if (std::is_same<T, int>::value)
-//    {
-//        sql_type = "INT";
-//    }
-//    if (std::is_same<T, std::string>::value || std::is_same<T, hexfloat_t>::value)
-//    {
-//        sql_type = "TEXT";
-//    }
-//    if (std::is_same<T, float>::value || std::is_same<T, double>::value)
-//    {
-//        sql_type = "REAL";
-//    }

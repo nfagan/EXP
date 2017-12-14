@@ -72,7 +72,7 @@ namespace db {
     //  build the trial data table
     EXPSQL_MAKE_FIELD(choice_type, string);
 //     EXPSQL_MAKE_FIELD(choice_time, sql::hexfloat_t);   //  store exact representation
-    EXPSQL_MAKE_FIELD(choice_time, sql::hexfloat_t);
+    EXPSQL_MAKE_FIELD(choice_time, double);
     EXPSQL_MAKE_FIELD(trial_number, int);
     EXPSQL_MAKE_TABLE(DATA, trial_number, choice_type, choice_time);
     
@@ -370,7 +370,7 @@ void task_thread_loop()
         db::gaze_table->commit<db::gaze_y>(coords.y);
         db::gaze_table->commit<db::gaze_t>(task->EllapsedTime().count());
         db::gaze_table->commit<db::trial_number>(trial_data->trial_number.load());
-//        db::gaze_table->insert();
+        db::gaze_table->insert();
         trial_data->last_gaze_frame = this_frame;
     });
     

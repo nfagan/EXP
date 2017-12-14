@@ -26,6 +26,19 @@ namespace ex3 {
                 gl->pipeline->Update();
                 gl->mouse->Update(gl->pipeline->GetTarget());
                 gl->keyboard->Update(gl->pipeline->GetTarget());
+                
+                if (gl->keyboard->KeyDown(Keys::A))
+                    std::cout << 'a' << std::endl;
+                if (gl->keyboard->KeyDown(Keys::S))
+                    std::cout << 's' << std::endl;
+                if (gl->keyboard->KeyDown(Keys::D))
+                    std::cout << 'd' << std::endl;
+                if (gl->keyboard->KeyDown(Keys::W))
+                    std::cout << 'w' << std::endl;
+                if (gl->keyboard->KeyDown(Keys::C))
+                {
+                    std::cout << 'c' << std::endl;
+                }
             });
             looper->Loop();
         }

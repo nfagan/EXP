@@ -30,9 +30,10 @@ namespace EXP {
     private:
         spinlock key_lock;
         std::vector<int> keys;
-        std::unordered_map<int, std::atomic<bool>> press_status;
+//        std::unordered_map<int, std::atomic<bool>> press_status;
+        std::unordered_map<int, bool> press_status;
         
-        bool contains(int key) const;
+        bool contains(int key);
     };
 }
 

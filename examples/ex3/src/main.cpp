@@ -16,6 +16,9 @@ using namespace ex3;
 int main(int argc, const char * argv[])
 {
     auto gl = make_shared<globals::gl>();
+    auto task = make_shared<globals::task>();
+    auto task_looper = task_loop(task, gl);
+    auto render_looper = render_loop(gl);
     
     //  opengl initialization; opens a 400x400 window
 	gl->pipeline->Begin(0, 400, 400);
@@ -25,10 +28,6 @@ int main(int argc, const char * argv[])
 		std::cout << "Failed to initialize the render context." << std::endl;
 		return EXIT_FAILURE;
 	}
-    
-    auto task = make_shared<globals::task>();
-    auto task_looper = task_loop(task, gl);
-    auto render_looper = render_loop(gl);
 
 	//  Start the time thread
 	task->time->Start();

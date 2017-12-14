@@ -8,7 +8,7 @@
 #ifndef data_h
 #define data_h
 
-namespace ex3 {
+namespace ex2 {
     struct TASK_DATA {
         double start_time = 0.0;
     };

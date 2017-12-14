@@ -22,29 +22,16 @@ namespace states {
 	//	fixation
 	//
     
-    typedef std::function<void(RenderLoop *looper)> looper_cb;
-    typedef std::function<void(State *state)> state_cb;
-    typedef std::function<void(State *state, shared_ptr<Target> target)> target_cb;
-    
     struct fixation : public state_template
     {
         
-        Time::duration_ms initial_fix_time = Time::duration_ms(500);
+        Time::duration_ms initial_fix_time = Time::duration_ms(5);
         looper_cb render_function;
-        state_cb on_entry;
         
         template<typename ...T>
         fixation(T... args) : state_template(args...) {};
         
-        target_cb on_target_entry = [this] (auto state, auto target) {
-            if (state->EllapsedTime() > initial_fix_time)
-            {
-                state->Next(task->ids.fixation);
-                state->ExitNow();
-                return;
-            }
-            state->Next(task->ids.fixation);
-        };
+        target_cb on_target_entry;
         
         void setup()
         {
@@ -82,6 +69,18 @@ namespace states {
                 //  by default, go to mistake state.
                 state->Next(task->ids.fixation);
             };
+            
+            on_target_entry = [this] (auto state, auto target) {
+                if (state->EllapsedTime() > initial_fix_time)
+                {
+                    state->Next(task->ids.fixation);
+                    state->ExitNow();
+                    return;
+                }
+                state->Next(task->ids.fixation);
+            };
+            
+            target_set.OnTargetEntry(on_target_entry);
             
             state->SetTimeIn(Time::duration_ms(2000));
             state->ExitOnTimeExceeded();

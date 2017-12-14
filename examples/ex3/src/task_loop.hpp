@@ -19,6 +19,7 @@ namespace ex3 {
     {
         shared_ptr<globals::task> task;
         shared_ptr<globals::gl> gl;
+        shared_ptr<globals::db> db;
         
         states::fixation fixation;
         
@@ -26,6 +27,7 @@ namespace ex3 {
         {
             this->task = task;
             this->gl = gl;
+            this->db = make_shared<globals::db>();
         }
         
         void setup()
@@ -34,7 +36,7 @@ namespace ex3 {
             
             //    setup fixation
             auto state_fixation = runner->CreateState(&(task->ids.fixation));
-            fixation = states::fixation(state_fixation, task, gl);
+            fixation = states::fixation(state_fixation, task, gl, db);
             fixation.setup();
 
             runner->OnExit([this] (auto task) {

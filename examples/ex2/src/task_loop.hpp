@@ -9,49 +9,53 @@
 #define task_loop_h
 
 #include "ex2.hpp"
+#include <atomic>
 
-namespace ex3 {
-    
-namespace task_loop {
-    
-    using namespace EXP;
+namespace ex2 {
+    namespace task_loop {
+        using namespace EXP;
 
-	auto on_exit = [] (auto task) {
-        auto &gl = globals::gl::get();
-		gl.pipeline->GetRenderLoop()->CancelLoop();
-	};
-    
-    void setup()
-    {
-        auto &task = globals::task::get();
-        auto &gl = globals::gl::get();
-        auto runner = task.runner;
+        auto on_exit = [] (auto task) {
+            auto &gl = globals::gl::get();
+            gl.pipeline->GetRenderLoop()->CancelLoop();
+        };
         
-		//	setup fixation
-        auto state_fixation = runner->CreateState(&task.ids.fixation);
-		states::fixation::setup(state_fixation);
+        auto on_error = [] (auto task, auto err) {
+            //
+        };
         
-        //  setup choice
-        auto state_choice = runner->CreateState(&task.ids.choice);
-        states::choice::setup(state_choice);
+        void setup()
+        {
+            auto &task = globals::task::get();
+            auto &gl = globals::gl::get();
+            auto runner = task.runner;
+            
+            //	setup fixation
+            auto state_fixation = runner->CreateState(&task.ids.fixation);
+            states::fixation::setup(state_fixation);
+            
+            //  setup choice
+            auto state_choice = runner->CreateState(&task.ids.choice);
+            states::choice::setup(state_choice);
+            
+            //  setup error
+            auto state_mistake = runner->CreateState(&task.ids.mistake);
+            states::mistake::setup(state_mistake);
+            
+            //	setup task
+            runner->OnExit(on_exit);
+            runner->OnError(on_error);
+            runner->ExitOnKeyPress(gl.keyboard, Keys::ESC);
+            runner->Next(state_fixation);
+        }
         
-        //  setup error
-        auto state_mistake = runner->CreateState(&task.ids.mistake);
-        states::mistake::setup(state_mistake);
-        
-		//	setup task
-		runner->OnExit(on_exit);
-        runner->ExitOnKeyPress(gl.keyboard, Keys::ESC);
-        runner->Next(state_fixation);
+        void main()
+        {
+            auto &task = globals::task::get();
+            task.runner->Run();
+            task.runner->LogTime();
+        }
     }
-    
-    void main()
-    {
-        auto &task = globals::task::get();
-        task.runner->Run();
-		task.runner->LogTime();
-    }
-}
 }
 
 #endif /* task_loop_h */

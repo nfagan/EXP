@@ -23,7 +23,8 @@ template<const char *name_, typename ...T>
 template<typename N, typename X>
 bool EXP::sql::table<name_, T...>::commit(X data)
 {
-    return row_->template commit<N>(data);
+    bool result = row_->template commit<N>(data);
+    return result;
 }
 
 template<const char *name_, typename ...T>

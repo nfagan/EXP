@@ -10,7 +10,7 @@
 
 #include "ex2.hpp"
 
-namespace ex3 {
+namespace ex2 {
     namespace globals {
         
         using namespace EXP;

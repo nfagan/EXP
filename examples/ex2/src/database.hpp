@@ -10,7 +10,7 @@
 
 #include "ex2.hpp"
 
-namespace ex3 {
+namespace ex2 {
     
     using std::string;
     using namespace EXP;
@@ -18,11 +18,14 @@ namespace ex3 {
     using std::make_shared;
     
     namespace db {
+        EXPSQL_MAKE_FIELD(trial_number, int);
+        
         EXPSQL_MAKE_FIELD(choice_type, string);
         //     EXPSQL_MAKE_FIELD(choice_time, sql::hexfloat_t);   //  store exact representation
         EXPSQL_MAKE_FIELD(choice_time, double);
-        EXPSQL_MAKE_FIELD(trial_number, int);
-        EXPSQL_MAKE_TABLE(DATABASE, trial_number, choice_type, choice_time);
+        EXPSQL_MAKE_TABLE(trial_data, trial_number, choice_type, choice_time);
+        
+//        EXPSQL_MAKE_FIELD(fixation_onset)
     }
     
     namespace globals {
@@ -32,13 +35,13 @@ namespace ex3 {
         public:
             shared_ptr<sql::connection> conn;
             shared_ptr<sql::cursor> curs;
-            shared_ptr<::ex3::db::DATABASE> database;
+            shared_ptr<::ex2::db::trial_data> trial_data;
         private:
             db()
             {
-                conn = make_shared<sql::connection>("test1.db");
+                conn = make_shared<sql::connection>("test2.db");
                 curs = conn->get_cursor();
-                database = make_shared<::ex3::db::DATABASE>(curs);
+                trial_data = make_shared<::ex2::db::trial_data>(curs);
             }
         };
     }

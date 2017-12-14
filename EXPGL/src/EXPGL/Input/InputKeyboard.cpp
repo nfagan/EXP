@@ -7,31 +7,40 @@
 //
 
 #include <EXPGL/Input/InputKeyboard.hpp>
+#include <iostream>
+#include <assert.h>
 
 void EXP::InputKeyboard::Update(std::shared_ptr<EXP::RenderTarget> target)
 {
     key_lock.lock();
     auto window = target->GetPrimaryWindow()->GetWindow();
-    for (const auto &key : keys)
+    for (unsigned i = 0; i < keys.size(); ++i)
     {
-        press_status[key] = glfwGetKey(window, key) == GLFW_PRESS;
+        press_status[keys[i]] = glfwGetKey(window, keys[i]) == GLFW_PRESS;
     }
     key_lock.unlock();
 }
 
-bool EXP::InputKeyboard::contains(int key) const
+bool EXP::InputKeyboard::contains(int key)
 {
-    return press_status.find(key) != press_status.end();
+    key_lock.lock();
+    for (unsigned i = 0; i < keys.size(); ++i)
+    {
+        if (keys[i] == key)
+        {
+            key_lock.unlock();
+            return true;
+        }
+    }
+    key_lock.unlock();
+    return false;
 }
 
 void EXP::InputKeyboard::Register(int key)
 {
-    key_lock.lock();
     if (contains(key))
-    {
-        key_lock.unlock();
         return;
-    }
+    key_lock.lock();
     keys.push_back(key);
     press_status[key] = false;
     key_lock.unlock();
@@ -39,7 +48,9 @@ void EXP::InputKeyboard::Register(int key)
 
 bool EXP::InputKeyboard::KeyDown(int key)
 {
-    if (!contains(key))
-        Register(key);
-    return press_status[key];
+    Register(key);
+    key_lock.lock();
+    bool status = press_status[key];
+    key_lock.unlock();
+    return status;
 }

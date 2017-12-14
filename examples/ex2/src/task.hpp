@@ -10,7 +10,7 @@
 
 #include "ex2.hpp"
 
-namespace ex3 {
+namespace ex2 {
     namespace globals {
         
         using namespace EXP;
@@ -23,7 +23,7 @@ namespace ex3 {
         public:
             shared_ptr<Time::Keeper> time;
             shared_ptr<Task> runner;
-            shared_ptr<TASK_DATA> task_data;
+            TASK_DATA task_data;
             
             struct ids_ {
                 unsigned fixation = 0;
@@ -35,7 +35,6 @@ namespace ex3 {
             {
                 time = make_shared<Time::Keeper>();
                 runner = make_shared<Task>(time);
-                task_data = make_shared<TASK_DATA>();
             }
         };
         

@@ -26,14 +26,12 @@ namespace ex3 {
     }
     
     namespace globals {
-        struct db : public singleton<db>
+        struct db
         {
-            friend struct singleton<db>;
-        public:
             shared_ptr<sql::connection> conn;
             shared_ptr<sql::cursor> curs;
             shared_ptr<::ex3::db::DATABASE> database;
-        private:
+            
             db()
             {
                 conn = make_shared<sql::connection>("test1.db");
